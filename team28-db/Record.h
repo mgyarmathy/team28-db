@@ -8,7 +8,10 @@
 #define RECORD_H_
 
 #include <string>
+#include <vector>
 #include <iostream>
+
+using namespace std;
 
 class Record
 {

@@ -18,22 +18,23 @@ class Database
 	public:
 		Database() {};
 
-		void add_table(Table t, string name);
-		void drop_table(string name);
+		void addTable(Table t, string name);
+		void dropTable(string name);
 
 		void save(string filename);
 		void load(string filename);
 		void merge(Database d);
 		void copy(Database d);
 
-		vector<string> list_tables();
-		vector<Table> get_tables();
+		vector<string> listTables();
+		vector<Table> getTables();
 
-		//query
-		//delete
-		//update
+		Table queryTable(string selectAttributes, string fromTable, string whereClause);
+		void deleteRecord(string selectAttributes, string fromTable, string whereClause);
+		void updateTable(string tableName, string whereClause, string setClause);
 
 	private:
+		vector<Table*> tables;
 
 };
 
