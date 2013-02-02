@@ -8,10 +8,7 @@
 #define RECORD_H_
 
 #include <string>
-#include <vector>
 #include <iostream>
-
-using namespace std;
 
 class Record
 {
@@ -19,24 +16,11 @@ class Record
 		vector<string> tuple;
 		
 	public:
-		Record(int n)
-		{
-			for(int i = 0; i < n; i++)
-			{
-				cout<<"Enter another record\n";
-				cin>>tuple[i];
-			}
-		}
-		
-		string getRecord(int n)
-		{
-			return tuple[n];
-		}
-		
-		void setRecord(int n, string replace)
-		{
-			tuple[n] = replace;
-		}
+		Record(int n);
+			
+		string getRecord(int n);
+			
+		void setRecord(int n, string replace);
 };
 
 #endif //RECORD_H_

@@ -7,11 +7,15 @@
 #ifndef TABLE_H_
 #define TABLE_H_
 
-class Database
+class Table
 {
 	public:
 		
 	private:
+		string name;
+		int numRows;
+		int numColumns;
+		Record 
 }
 
 #endif //TABLE_H_
