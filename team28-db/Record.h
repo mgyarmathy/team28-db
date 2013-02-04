@@ -13,16 +13,14 @@
 class Record
 {
 	public:
-		Record(int n);
+		Record(int entryCount);
 			
-		string getRecord();
-			
-		void setRecord(int n, string replace);
+		string getEntry(int index);	
+		void updateEntry(int index, string s);
 
 	private:
 		vector<string> tuple;
-		
-	
+			
 };
 
 #endif //RECORD_H_

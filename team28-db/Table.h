@@ -19,18 +19,20 @@ class Table
 
 		void addField(Attribute a);
 		void deleteField(Attribute a);
-		void addEntry(Record r);
-
-		vector<Attribute> attributes();
-		int size(); //or numberOfEntries()?
-		//Record iterator
 		void renameField(string oldName, string newName);
+		
+		void addRow(Record r);
+
+		vector<Attribute> fields();
+		int size(); //or numberOfEntries()?
+		Record getRow(int index);
+		
 		void setKey(vector<string> attributes);
 
 		Table crossJoin(Table a, Table b);
 		Table naturalJoin(Table a, Table b);
 
-		//should these return floating point numbers?
+		//TEMPLATE THESE.
 		int sum(string field);
 		int count(string field);
 		int min(string field);
