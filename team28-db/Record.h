@@ -8,19 +8,14 @@
 #define RECORD_H_
 
 #include <string>
-#include <iostream>
 
-class Record{
+using namespace std;
 
+class Record {
 	public:
-		Record(int entryCount);
+		Record(vector<string> entries);
 			
-		string getEntry(int index);	
-		void updateEntry(int index, string s);
-
-	private:
-		vector<string> tuple;
-			
+		string& elementAt(int index);
 };
 
 #endif //RECORD_H_

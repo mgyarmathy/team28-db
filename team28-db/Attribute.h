@@ -9,19 +9,15 @@
 
 #include <string>
 
-class Attribute{
+using namespace std;
 
-	public:
-		enum type {INTEGER, FLOAT, VARSTRING, DATE, TIME};
-		Attribute(type t, string name);
-		
-		string getName();
-		void setName(string name);
+enum Type {INTEGER, FLOAT, VARSTRING, DATE, TIME};
 
-	private:
-		type t;
+struct Attribute {
+		Type type;
 		string name;
-	
+
+		Attribute(Type t, string name);
 };
 
 #endif //ATTRIBUE_H_

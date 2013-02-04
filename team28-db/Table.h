@@ -11,38 +11,43 @@
 #include "Attribute.h"
 #include "Record.h"
 
-class Table{
+using namespace std;
 
+class Table {
 	public:
 		Table();
-		Table(vector<Attribute> fields);
+		Table(vector<Attribute> columns);
 
-		void addField(Attribute a);
-		void deleteField(Attribute a);
-		void renameField(string oldName, string newName);
+		int addColumn(Attribute a);
+		int deleteColumn(Attribute a);
+		int deleteColumn(string attributeName);
+
+		int renameColumn(string oldName, string newName);
 		
-		void addRow(Record r);
-
-		vector<Attribute> fields();
-		int size(); //or numberOfEntries()?
-		Record getRow(int index);
+		int insertRow(string values);
 		
-		void setKey(vector<string> attributes);
+		vector<Attribute> getColumns();
 
-		Table crossJoin(Table a, Table b);
-		Table naturalJoin(Table a, Table b);
+		int getNumberOfRows();
 
-		//TEMPLATE THESE.
-		int sum(string field);
-		int count(string field);
-		int min(string field);
-		int max(string field);
+		Record& rowAt(int index);
+		
+		int setKey(vector<Attribute> attributes);
+		int setKey(vector<string> attributes);
 
+		Table crossJoin(const Table& a, const Table& b);
+		Table naturalJoin(const Table& a, const Table& b);
 
-	private:
-		vector<Attribute> fields;
-		vector<Record> entries;
+		template <class T>
+		T sum(string column);
 
+		template <class T>
+		T min(string column);
+
+		template <class T>
+		T max(string column);
+
+		int count(string column);
 };
 
 #endif //TABLE_H_

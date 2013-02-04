@@ -7,34 +7,33 @@
 #ifndef DATABASE_H_
 #define DATABASE_H_
 
-#include <string>
-#include <vector>
 #include "Table.h"
 
 using namespace std;
 
-class Database{
-
+class Database {
 	public:
 		Database() {};
+		Database(const Database &d);
+		Database(string fileName);
+		Database(const Table &t);
 
-		void addTable(Table t, string name);
-		void dropTable(string name);
+		int addTable(const Table &t, string name);
+		int dropTable(string name);
 
-		void save(string filename);
-		void load(string filename);
-		void merge(Database d);
-		void copy(Database d);
+		int save(string filename);
+		int load(string filename);
+		int merge(const Database& d);
+		int merge(string fileName);
+		int copy(const Database& d);
+		int copy(string fileName);
 
 		vector<string> listTables();
 		vector<Table> getTables();
 
-		Table queryTable(string selectAttributes, string fromTable, string whereClause);
-		void deleteRecord(string selectAttributes, string fromTable, string whereClause);
-		void updateTable(string tableName, string whereClause, string setClause);
-
-	private:
-		vector<Table*> tables;
+		Table queryTable(string columnsToSelect, string fromTable, string whereClause);
+		int deleteRows(string fromTable, string whereClause);
+		int updateTable(string tableName, string setClause, string whereClause);
 
 };
 
