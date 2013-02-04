@@ -12,15 +12,17 @@
 
 class Record
 {
-	private:
-		vector<string> tuple;
-		
 	public:
 		Record(int n);
 			
-		string getRecord(int n);
+		string getRecord();
 			
 		void setRecord(int n, string replace);
+
+	private:
+		vector<string> tuple;
+		
+	
 };
 
 #endif //RECORD_H_
