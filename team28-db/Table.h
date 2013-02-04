@@ -11,8 +11,8 @@
 #include "Attribute.h"
 #include "Record.h"
 
-class Table
-{
+class Table{
+
 	public:
 		Table();
 		Table(vector<Attribute> fields);
@@ -42,6 +42,7 @@ class Table
 	private:
 		vector<Attribute> fields;
 		vector<Record> entries;
-}
+
+};
 
 #endif //TABLE_H_

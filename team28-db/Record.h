@@ -10,8 +10,8 @@
 #include <string>
 #include <iostream>
 
-class Record
-{
+class Record{
+
 	public:
 		Record(int entryCount);
 			

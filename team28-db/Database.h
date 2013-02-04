@@ -13,8 +13,8 @@
 
 using namespace std;
 
-class Database
-{
+class Database{
+
 	public:
 		Database() {};
 

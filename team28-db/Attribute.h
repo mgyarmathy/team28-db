@@ -9,8 +9,8 @@
 
 #include <string>
 
-class Attribute
-{
+class Attribute{
+
 	public:
 		enum type {INTEGER, FLOAT, VARSTRING, DATE, TIME};
 		Attribute(type t, string name);
@@ -22,6 +22,6 @@ class Attribute
 		type t;
 		string name;
 	
-}
+};
 
 #endif //ATTRIBUE_H_
