@@ -11,9 +11,8 @@
 
 class Attribute
 {
-	enum type {INTEGER, FLOAT, VARSTRING, DATE, TIME};
-
 	public:
+		enum type {INTEGER, FLOAT, VARSTRING, DATE, TIME};
 		Attribute(type t, string name);
 		
 		string getName();
