@@ -15,7 +15,6 @@ Basic Coding Standards
 
 1. camelCase for naming
 2. {} brackets:
-functionName()
-{
+functionName() {
   le code
 }
