@@ -7,21 +7,22 @@
 #ifndef ATTRIBUTE_H_
 #define ATTRIBUTE_H_
 
+#include <string>
+
 class Attribute
 {
-	private:
-		enum attrType { INTEGER, FLOAT, VARSTRING, DATE, TIME };
-		string attrName;
-	
+	enum type {INTEGER, FLOAT, VARSTRING, DATE, TIME};
+
 	public:
-		/*NOTE: for the constructor, seeing as we used an enum, various ints describe various enums.
-		  Whoever writes this, please cast the ints in a logical manner */
-		Attribute( int n, string name);
+		Attribute(type t, string name);
 		
-		string getName():
-		
+		string getName();
 		void setName(string name);
 
+	private:
+		type t;
+		string name;
+	
 }
 
 #endif //ATTRIBUE_H_
