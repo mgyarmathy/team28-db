@@ -15,29 +15,31 @@ using namespace std;
 
 class Table {
 	public:
+		//constructors
 		Table();
 		Table(vector<Attribute> columns);
 
+		//column operations
 		int addColumn(Attribute a);
 		int deleteColumn(Attribute a);
 		int deleteColumn(string attributeName);
-
 		int renameColumn(string oldName, string newName);
-		
-		int insertRow(string values);
-		
 		vector<Attribute> getColumns();
-
+		
+		//row operations
+		int insertRow(string values);
 		int getNumberOfRows();
-
 		Record& rowAt(int index);
 		
+		//key operations
 		int setKey(vector<Attribute> attributes);
 		int setKey(vector<string> attributes);
 
+		//table join operations
 		Table crossJoin(const Table& a, const Table& b);
 		Table naturalJoin(const Table& a, const Table& b);
 
+		//table computation functions
 		template <class T>
 		T sum(string column);
 
