@@ -20,4 +20,4 @@ struct Attribute {
 		Attribute(Type t, string name);
 };
 
-#endif //ATTRIBUE_H_
+#endif //ATTRIBUTE_H_
