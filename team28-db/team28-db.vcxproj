@@ -80,7 +80,10 @@
     <ClInclude Include="Table.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Attribute.cpp" />
+    <ClCompile Include="Database.cpp" />
+    <ClCompile Include="Record.cpp" />
+    <ClCompile Include="Table.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
