@@ -40,14 +40,11 @@ class Table {
 		Table naturalJoin(const Table& a, const Table& b);
 
 		//table computation functions
-		template <class T>
-		T sum(string column);
+		string sum(string column);
 
-		template <class T>
-		T min(string column);
+		string min(string column);
 
-		template <class T>
-		T max(string column);
+		string max(string column);
 
 		int count(string column);
 };

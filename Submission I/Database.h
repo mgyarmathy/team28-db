@@ -13,7 +13,7 @@ using namespace std;
 
 class Database {
 	public:
-		Database() {};
+		Database();
 		Database(const Database &d);
 		Database(string fileName);
 		Database(const Table &t);

@@ -17,7 +17,7 @@ struct Attribute {
 		Type type;
 		string name;
 
-		Attribute(Type t, string name);
+		Attribute(Type t, string n);
 };
 
 #endif //ATTRIBUTE_H_

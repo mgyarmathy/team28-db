@@ -50,19 +50,16 @@ Table Table::naturalJoin(const Table& a, const Table& b) {
 }
 
 //table computation functions
-template <class T>
-T Table::sum(string column) {
-	return T();
+string Table::sum(string column) {
+	return string();
 }
 
-template <class T>
-T Table::min(string column) {
-	return T();
+string Table::min(string column) {
+	return string();
 }
 
-template <class T>
-T Table::max(string column) {
-	return T();
+string Table::max(string column) {
+	return string();
 }
 
 int Table::count(string column) {

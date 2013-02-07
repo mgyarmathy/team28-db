@@ -8,11 +8,13 @@
 #define RECORD_H_
 
 #include <string>
+#include <vector>
 
 using namespace std;
 
 class Record {
 	public:
+		Record();
 		Record(vector<string> entries);
 			
 		string& elementAt(int index);
