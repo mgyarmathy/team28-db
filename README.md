@@ -20,29 +20,29 @@ functionName() {
 }
 
 Jayant
-[ ] Querying
-[ ] Delete
-[ ] Update/modify command
+- [ ] Querying
+- [ ] Delete
+- [ ] Update/modify command
 
 Logan
-[ ] addColumn() (making sure all other preexisting entries get null for that attribute)
-[ ] deleteColumn()
-[ ] renameColumn()
-[ ] rowAt()
-[ ] Record class constructor/modifiers
-[ ] Attribute class constructor
+- [ ] addColumn() (making sure all other preexisting entries get null for that attribute)
+- [ ] deleteColumn()
+- [ ] renameColumn()
+- [ ] rowAt()
+- [ ] Record class constructor/modifiers
+- [ ] Attribute class constructor
 
 Nish
-[ ] Table sum
-[ ] Table count
-[ ] Table min
-[ ] Table max
+- [ ] Table sum
+- [ ] Table count
+- [ ] Table min
+- [ ] Table max
 
 Michael
-[ ] Save Database to file
-[ ] Load Database from file
-[ ] Merge database
-[ ] Copy database
-[ ] Cross join
-[ ] Natural join
-[ ] Specify key
+- [ ] Save Database to file
+- [ ] Load Database from file
+- [ ] Merge database
+- [ ] Copy database
+- [ ] Cross join
+- [ ] Natural join
+- [ ] Specify key
