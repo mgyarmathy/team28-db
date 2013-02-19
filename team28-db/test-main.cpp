@@ -1,6 +1,6 @@
 //#include "stdafx.h"
 #include <iostream>
-//#include "Database.h"
+#include "Database.h"
 #include "gtest/gtest.h"
 
 
@@ -19,20 +19,20 @@ TEST(my_test_case, sample_test)
 /*----------------------Database Class-----------------------*/
 //----------------------Kira
 //Database()
-TEST(database_constructor, database_eq)
+/*TEST(database_constructor, database_eq)
 {
 	Database b = new Database();
 	Database a = b;
 	EXPECT_TRUE(a==b);
-}
+}*/
 //---int deleteRows(string fromTable, string whereClause)
 TEST(database_deleteRows, invalid_where)
 {
-	Table t = new Table();
+	Table t = Table();
 	Database d(t);
 	string table = "t";
 	string where_input = "I don't exist";
-	int a = d.deleteRows(table, where_input)
+	int a = d.deleteRows(table, where_input);
 	EXPECT_EQ(1,a); //Return a 1 for failure
 }
 TEST(database_deleteRows, invalid_table)
@@ -40,12 +40,12 @@ TEST(database_deleteRows, invalid_table)
 	Database d;
 	string table = "t";
 	string where_input = "I don't exist";
-	int a = d.deleteRows(table, where_input)
+	int a = d.deleteRows(table, where_input);
 	EXPECT_EQ(1,a); //Return a 1 for failure
 }
 TEST(database_deleteRows, invalid_table)
 {
-	Table t = new Table();
+	Table t = Table();
 	Type type = INTEGER;
 	Attribute a(type, "10");
 	t.addColumn(a);
@@ -60,7 +60,7 @@ TEST(database_deleteRows, invalid_table)
 TEST(database_merge, merge_success)
 {
 	Database d;
-	int a = merge(d);
+	int a = d.merge(d);
 	EXPECT_EQ(0,a); 
 }
 
@@ -68,17 +68,17 @@ TEST(database_merge, merge_success)
 TEST(database_addTable, valid_table_name)
 {
 	Database d;
-	Table t = new Table();
+	Table t = Table();
 	int a = d.addTable(t, "Table 1");
 	EXPECT_EQ(0,a); 
 }
 TEST(database_addTable, duplicate_table_name)
 {
 	Database d;
-	Table t = new Table();
-	Table d = new Table();
+	Table t = Table();
+	Table u = Table();
 	int a = d.addTable(t, "Table 1");
-	int b = d.addTable(d, "Table 1");
+	int b = d.addTable(u, "Table 1");
 	EXPECT_EQ(1,a); 
 }
 
@@ -114,10 +114,10 @@ TEST(database_copy, file_copy)
 	ASSERT_EQ(1,a);
 }
 
-TEST(database_tableconstruct, createfromtable)
+/*TEST(database_tableconstruct, createfromtable)
 {
 	Table t;
-	Attribute a("2000/05/03", "bday");
+	Attribute a(DATE, "bday");
 	t.addColumn(a);
 	Database(t);
 }
@@ -125,10 +125,10 @@ TEST(database_tableconstruct, createfromtable)
 TEST(database_tableconstruct, createfrombigtable)
 {
 	Table t;
-	Attribute a("2000/05/03", "bday");
-	Attribute b(2000, "thisnum");
-	Attribute c("asldfa;sdlfas;dlfjhasd;fljahsdgadsfljasdf;jadsfweald", "thisstring");
-	Attribute d("05:01:33", "TIMETIME");
+	Attribute a(DATE, "bday");
+	Attribute b(INTEGER, "thisnum");
+	Attribute c(VARSTRING, "thisstring");
+	Attribute d(TIME, "TIMETIME");
 	t.addColumn(a);
 	t.addColumn(b);
 	t.addColumn(c);
@@ -136,120 +136,118 @@ TEST(database_tableconstruct, createfrombigtable)
 	Database(t);
 }
 
-//api doesn't specify how to give a table a name if it is created through the Database(const Table &t)
-//this test brings that issue to light
-TEST(tablequerry, test1)
+TEST(tablequery, test1)
 {
 	Table t;
-	Attribute a("2000/05/03", "bday");
-	Attribute b(2000, "thisnum");
-	Attribute c("asldfa;sdlfas;dlfjhasd;fljahsdgadsfljasdf;jadsfweald", "thisstring");
-	Attribute d("05:01:33", "TIMETIME");
+	Attribute a(DATE, "bday");
+	Attribute b(INTEGER, "thisnum");
+	Attribute c(VARSTRING, "thisstring");
+	Attribute d(TIME, "TIMETIME");
 	t.addColumn(a);
 	t.addColumn(b);
 	t.addColumn(c);
 	t.addColumn(d);
-	Database d(t);
-	Table c = d.querryTable(*,"",ALL);
+	Database db(t);
+	Table c = db.queryTable("*","","ALL");
 }
 
-TEST(tablequerry, test2)
+TEST(tablequery, test2)
 {
 	Table t;
-	Database d;
-	Attribute a("2000/05/03", "bday");
-	Attribute b(2000, "thisnum");
-	Attribute c("asldfa;sdlfas;dlfjhasd;fljahsdgadsfljasdf;jadsfweald", "thisstring");
-	Attribute d("05:01:33", "TIMETIME");
+	Database db;
+	Attribute a(DATE, "bday");
+	Attribute b(INTEGER, "thisnum");
+	Attribute c(VARSTRING, "thisstring");
+	Attribute d(TIME, "TIMETIME");
 	t.addColumn(a);
 	t.addColumn(b);
 	t.addColumn(c);
 	t.addColumn(d);
-	d.addTable(t, "table1")
-	Table c = d.querryTable(*,"table1","thisnum"="TIMETIME");
+	db.addTable(t, "table1");
+	Table c = db.queryTable("*", "table1", "thisnum == TIMETIME");
 }
 
-TEST(tablequerry, test3)
+TEST(tablequery, test3)
 {
 	Table t;
-	Database d;
-	Attribute a("2000/05/03", "bday");
-	Attribute b(2000, "thisnum");
-	Attribute c("asldfa;sdlfas;dlfjhasd;fljahsdgadsfljasdf;jadsfweald", "thisstring");
-	Attribute d("05:01:33", "TIMETIME");
+	Database db;
+	Attribute a(DATE, "bday");
+	Attribute b(INTEGER, "thisnum");
+	Attribute c(VARSTRING, "thisstring");
+	Attribute d(TIME, "TIMETIME");
 	t.addColumn(a);
 	t.addColumn(b);
 	t.addColumn(c);
 	t.addColumn(d);
-	d.addTable(t, "table1")
-	Table c = d.querryTable(*,"table1","thisnum"="TIMETIME");
+	db.addTable(t, "table1");
+	Table c = db.queryTable("*", "table1", "thisnum == TIMETIME");
 }
 
-TEST(tablequerry, test4)
+TEST(tablequery, test4)
 {
 	Table t;
-	Database d;
-	Attribute a(2200, "bday");
-	Attribute b(2000, "thisnum");
-	Attribute c("asldfa;sdlfas;dlfjhasd;fljahsdgadsfljasdf;jadsfweald", "thisstring");
-	Attribute d("05:01:33", "TIMETIME");
+	Database db;
+	Attribute a(INTEGER, "bday");
+	Attribute b(INTEGER, "thisnum");
+	Attribute c(VARSTRING, "thisstring");
+	Attribute d(TIME, "TIMETIME");
 	t.addColumn(a);
 	t.addColumn(b);
 	t.addColumn(c);
 	t.addColumn(d);
-	d.addTable(t, "table1")
-	Table c = d.querryTable(*,"table1","bday"<"thisnum");
+	db.addTable(t, "table1");
+	Table c = db.queryTable("*", "table1", "bday < thisnum");
 }
 
-TEST(tablequerry, test5)
+TEST(tablequery, test5)
 {
 	Table t;
-	Database d;
-	Attribute a(12.67, "bday");
-	Attribute b(2000, "thisnum");
-	Attribute c("asldfa;sdlfas;dlfjhasd;fljahsdgadsfljasdf;jadsfweald", "thisstring");
-	Attribute d("05:01:33", "TIMETIME");
+	Database db;
+	Attribute a(FLOAT, "bday");
+	Attribute b(INTEGER, "thisnum");
+	Attribute c(VARSTRING, "thisstring");
+	Attribute d(TIME, "TIMETIME");
 	t.addColumn(a);
 	t.addColumn(b);
 	t.addColumn(c);
 	t.addColumn(d);
-	d.addTable(t, "table1")
-	Table c = d.querryTable(*,"table1","bday"<"thisnum");
+	db.addTable(t, "table1");
+	Table c = db.queryTable("*","table1","bday < thisnum");
 }
 
-TEST(tablequerry, test6)
+TEST(tablequery, test6)
 {
 	Table t;
-	Database d;
-	Attribute a(12, "bday");
-	Attribute b(2000, "thisnum");
-	Attribute c("asldfa;sdlfas;dlfjhasd;fljahsdgadsfljasdf;jadsfweald", "thisstring");
-	Attribute d("05:01:33", "TIMETIME");
+	Database db;
+	Attribute a(INTEGER, "bday");
+	Attribute b(INTEGER, "thisnum");
+	Attribute c(VARSTRING, "thisstring");
+	Attribute d(TIME, "TIMETIME");
 	t.addColumn(a);
 	t.addColumn(b);
 	t.addColumn(c);
 	t.addColumn(d);
-	d.addTable(t, "table1")
-	Table c = d.querryTable(*,"table1","bday"<"thisnum");
-}
+	db.addTable(t, "table1");
+	Table c = db.queryTable("*","table1","bday < thisnum");
+}*/
 //----------------------Khoa
 TEST(database_droptable,dropfail)//1
 {
 	Database d;
 	string a= "table does not exist";
-	int a=d.dropTable(a);
+	int a = d.dropTable(a);
 	EXPECT_EQ(0, a);
 
 
 }
 
-TEST(database_droptable,invalidetable)//2
+/*TEST(database_droptable,invalidtable)//2
 {
 	Database d;
 	int a=1;
-	table invalid;
+	Table invalid;
 	vector<Table> tables= d.getTables();
-	for(int i =0; i<tabeles.size;i++)
+	for(int i =0; i<tables.size;i++)
 	{
 		if(tables[i]==invalid)
 			a=0;// table doesn't exist
@@ -257,9 +255,9 @@ TEST(database_droptable,invalidetable)//2
 	EXPECT_EQ(1, a);
 
 
-}
+}*/
 
-TEST(database_droptable,tabledropsucess)//1
+/*TEST(database_droptable,tabledropsucess)//1
 {
 	Database d;
 	string a= "real table";
@@ -347,7 +345,7 @@ TEST(database_database,invaldatabase)//10
 	EXPECT_EQ(0, d);
 
 
-}
+}*/
 
 /*----------------------Table Class-----------------------*/
 //----------------------Khoa
@@ -399,10 +397,10 @@ TEST(table_renamecolum,renamegood)
 
 
 }
-TEST(table_renamecolum,renamegood)
+/*TEST(table_renamecolum,renamegood)
 {
 	Table t;
-	Attribute a(string,"asdfaesdfsdgf");
+	Attribute a(VARSTRING,"asdfaesdfsdgf");
 	int d = 1;
 	 
 	t.renameColumn("asdfaesdfsdgf","jim");
@@ -476,7 +474,7 @@ TEST(table_vector, invalidinput2)//21
 	EXPECT_EQ(1, d);
 
 
-}  
+}  */
 
 //----------------------Kira
 //---int deleteColumn(string attributeName)
@@ -543,6 +541,7 @@ TEST(table_setKey, invalid_attributes)
 	ASSERT_EQ(1,a);
 }
 //---string sum(string column)
+/*
 TEST(table_sum, one_attribute)
 {
 	Table t;
@@ -612,7 +611,7 @@ TEST(table_rowAt, valid_record)
 	Record r(entries);
 	Record w = t.insertRow("Weee!");
 	ASSERT_TRUE(r==w);
-}
+}*/
 //----------------------Grant
 TEST(deleteColumn, deletemanycolumns)
 {
@@ -953,14 +952,6 @@ TEST(record_elementAt, wrong_return)
 	ASSERT_STRNE("Hey", 1);
 }
 
-
-int main(int argc, char** argv) 
-{ 
-    testing::InitGoogleTest(&argc, argv); 
-    RUN_ALL_TESTS(); 
-    std::getchar(); // keep console window open until Return keystroke
-}
-
 //-------------------Cullen (not ordered!)
 TEST(attribute_constructor, saves_name)		//1
 {
@@ -977,12 +968,12 @@ TEST(attribute_constructor, saves_wrong_name)	//2
 	EXPECT_EQ(a, b.name);
 }
 
-TEST(attribute_constructor, valid_type_int)	//3
+/*TEST(attribute_constructor, valid_type_int)	//3
 {
-	INTEGER A;
+	Type::INTEGER a;
 	string c = "dog";
 	Attribute b = Attribute(INTEGER, c);
-	EXPECT_EQ(typeid(A), typeid(b.type));
+	EXPECT_EQ(typeid(a), typeid(b.type));
 }
 
 TEST(attribute_constructor, valid_type_float)	//4
@@ -1023,17 +1014,17 @@ TEST(attribute_constructor, invalid_type_bool)	//8
 	string c = "dog";
 	Attribute b = Attribute(INTEGER, c);
 	EXPECT_EQ(typeid(A), typeid(b.type));
-}
+}*/
 
 TEST(table_naturaljoin, does_not_contain_table_a)	//9
 {
 	int truth = 1;
 	Table A;
-	A.addColumn(INTEGER, "blue");
+	A.addColumn(Attribute(Type::INTEGER, "blue"));
 	Table B;
-	B.addColumn(INTEGER, "green");
+	B.addColumn(Attribute(Type::INTEGER, "green"));
 
-	Table C = naturalJoin(A,B);
+	Table C = A.naturalJoin(A,B);
 	vector<Attribute> v = C.getColumns();
 	vector<Attribute> w = A.getColumns();
 	for (int i=0; i< w.size(); i++){
@@ -1052,11 +1043,11 @@ TEST(table_naturaljoin, does_not_contain_table_b)	//10
 {
 	int truth = 1;
 	Table A;
-	A.addColumn(INTEGER, "blue");
+	A.addColumn(Attribute(Type::INTEGER, "blue"));
 	Table B;
-	B.addColumn(INTEGER, "green");
+	B.addColumn(Attribute(Type::INTEGER, "green"));
 
-	Table C = naturalJoin(A,B);
+	Table C = A.naturalJoin(A,B);
 	vector<Attribute> v = C.getColumns();
 	vector<Attribute> w = A.getColumns();
 	for (int i=0; i< w.size(); i++){
@@ -1094,8 +1085,8 @@ TEST(table_addcolumn, column_not_at_end_of_list)	//12
 {
 	int truth = 1;
 	Table A;
-	A.addColumn(INTEGER, "blue");
-	A.addColumn(INTEGER, "green");
+	A.addColumn(Attribute(Type::INTEGER, "blue"));
+	A.addColumn(Attribute(Type::INTEGER, "green"));
 
 	vector<Attribute> w = A.getColumns();
 
@@ -1109,7 +1100,7 @@ TEST(table_addcolumn, column_not_added)	//13
 {
 	int truth = 1;
 	Table A;
-	truth = A.addColumn(INTEGER, "blue");
+	truth = A.addColumn(Attribute(Type::INTEGER, "blue"));
 
 	EXPECT_EQ(truth, 1);
 }
@@ -1120,7 +1111,7 @@ TEST(database_getTable, runs_successfully)	//14
 	Database A;
 	Table B;
 
-	A.addTable(B);
+	A.addTable(B, "table1");
 	vector<Table> t = A.getTables();
 
 	if (t.size() < 1)
@@ -1134,16 +1125,16 @@ TEST(table_getColumns, attributes_correct)	//15
 	int truth = 1;
 	Table A;
 
-	vector<Attributes> v;
-	v.push_back(INTEGER, "blue");
-	v.push_back(INTEGER, "green");
-	v.push_back(INTEGER, "red");
+	vector<Attribute> v;
+	v.push_back(Attribute(Type::INTEGER, "blue"));
+	v.push_back(Attribute(Type::INTEGER, "green"));
+	v.push_back(Attribute(Type::INTEGER, "red"));
 
 	for (int i = 0; i < v.size(); i++){
 		A.addColumn(v[i]);
 	}
 
-	vector<Attributes> w = A.getColumns();
+	vector<Attribute> w = A.getColumns();
 
 	for (int j = 0; j < w.size(); j++){
 		if ((v[j].name != w[j].name) || (v[j].type != w[j].type))
@@ -1158,16 +1149,16 @@ TEST(table_getColumns, not_all_attributes_listed){	//16
 	int truth = 1;
 	Table A;
 
-	vector<Attributes> v;
-	v.push_back(INTEGER, "blue");
-	v.push_back(INTEGER, "green");
-	v.push_back(INTEGER, "red");
+	vector<Attribute> v;
+	v.push_back(Attribute(Type::INTEGER, "blue"));
+	v.push_back(Attribute(Type::INTEGER, "green"));
+	v.push_back(Attribute(Type::INTEGER, "red"));;
 
 	for (int i = 0; i < v.size(); i++){
 		A.addColumn(v[i]);
 	}
 
-	vector<Attributes> w = A.getColumns();
+	vector<Attribute> w = A.getColumns();
 
 	if (w.size() != v.size())
 		truth = 0;
@@ -1309,4 +1300,11 @@ Test(table_insertrow, successful){	//25
 	truth = T.insertRow("test string");
 
 	EXPECT_EQ(truth, 1);
+}
+
+int main(int argc, char** argv) 
+{ 
+    testing::InitGoogleTest(&argc, argv); 
+    RUN_ALL_TESTS(); 
+    std::getchar(); // keep console window open until Return keystroke
 }

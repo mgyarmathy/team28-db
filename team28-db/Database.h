@@ -8,10 +8,13 @@
 #define DATABASE_H_
 
 #include "Table.h"
+#include <map>
+#include <string>
 
 using namespace std;
 
 class Database {
+
 	public:
 		Database();
 		Database(const Database &d);
@@ -35,6 +38,8 @@ class Database {
 		int deleteRows(string fromTable, string whereClause);
 		int updateTable(string tableName, string setClause, string whereClause);
 
+	private:
+		map<string, Table> tables;
 };
 
 #endif //DATABASE_H_

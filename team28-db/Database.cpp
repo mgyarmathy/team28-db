@@ -6,9 +6,11 @@ Database::Database(string fileName) {}
 Database::Database(const Table &t) {}
 
 int Database::addTable(const Table &t, string name) {
+	tables.insert(pair<string,Table>(name, t));
 	return 0;
 }
 int Database::dropTable(string name) {
+	tables.erase(name);
 	return 0;
 }
 
