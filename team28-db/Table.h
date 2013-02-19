@@ -13,7 +13,7 @@
 
 using namespace std;
 
-class Table {
+class __declspec(dllexport) Table {
 	public:
 		//constructors
 		Table();

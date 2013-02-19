@@ -13,7 +13,7 @@ using namespace std;
 
 enum Type {INTEGER, FLOAT, VARSTRING, DATE, TIME};
 
-struct Attribute {
+struct __declspec(dllexport) Attribute {
 		Type type;
 		string name;
 

@@ -13,7 +13,7 @@
 
 using namespace std;
 
-class Database {
+class __declspec(dllexport) Database {
 
 	public:
 		Database();

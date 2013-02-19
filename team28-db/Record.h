@@ -12,7 +12,7 @@
 
 using namespace std;
 
-class Record {
+class __declspec(dllexport) Record {
 	public:
 		Record();
 		Record(vector<string> entries);
