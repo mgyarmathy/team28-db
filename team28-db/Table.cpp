@@ -7,12 +7,17 @@ Table::Table(vector<Attribute> columns) {
 
 //column operations
 int Table::addColumn(Attribute a) {
+	//push back for columns
+	//check if that attribute has alreay been added to the table
+	//if so, remove all entries for that attribute
 	return 0;
 }
 int Table::deleteColumn(Attribute a) {
+	//remove that entry from the vector
 	return 0;
 }
 int Table::deleteColumn(string attributeName) {
+	//remove the entry from the vector
 	return 0;
 }
 int Table::renameColumn(string oldName, string newName) {
