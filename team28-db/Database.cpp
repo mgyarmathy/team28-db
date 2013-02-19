@@ -1,4 +1,6 @@
 #include "Database.h"
+#include <iostream>
+#include <fstream>
 
 Database::Database() {}
 Database::Database(const Database &d) {}
@@ -15,6 +17,15 @@ int Database::dropTable(string name) {
 }
 
 int Database::save(string filename) {
+	ofstream file;
+	file.open(filename);
+	vector<Table> tables = this->getTables();
+	vector<string> tableNames = this->listTables();
+	file << tables.size() << "\n";
+	for(int i = 0; i<tables.size(); i++){
+		file << tableNames[i] << "\n";
+	}
+	file.close();
 	return 0;
 }
 int Database::load(string filename) {
