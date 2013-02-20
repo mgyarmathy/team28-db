@@ -16,27 +16,57 @@ int Database::dropTable(string name) {
 }
 
 int Database::save(string filename) {
-	ofstream file;
-	file.open(filename);
-	vector<Table> tables_list = this->getTables();
+	ofstream file(filename);
+	vector<Table> tablesList = this->getTables();
 	vector<string> tableNames = this->listTables();
-	file << tables_list.size() << "\n";
-	for(int i = 0; i<tables_list.size(); i++){
+	file << tablesList.size() << "\n";
+	for(int i = 0; i<tablesList.size(); i++){
 		file << tableNames[i] << "\n";
-		vector<Attribute> columns = tables_list[i].getColumns();
+		vector<Attribute> columns = tablesList[i].getColumns();
 		file << columns.size() << "\n";
 		for(int j = 0; j<columns.size(); j++){
-			file << columns[j].type << " " << columns[j].name << "\n";
+			file << columns[j].type << "\n" << columns[j].name << "\n";
 		}
-		for(int j = 0; j<tables_list[i].getNumberOfRows(); j++){
-			Record r = tables_list[i].rowAt(j);
-			//save contents of record
+		for(int j = 0; j<tablesList[i].getNumberOfRows(); j++){
+			Record r = tablesList[i].rowAt(j);
+			//TODO: save contents of record
 		}
 	}
 	file.close();
 	return 0;
 }
 int Database::load(string filename) {
+	ifstream file(filename);
+	if(file){
+		this->clearDatabase();
+		int tableCount;
+		file >> tableCount;
+		cout << tableCount << " tables exist." << endl;
+		for(int i = 0; i<tableCount; i++){
+			Table t;
+			string tableName;
+			getline(file, tableName);
+			int columnCount;
+			file >> columnCount;
+			for(int j = 0; j<columnCount; j++){ //add table columns
+				int attributeTypeEnum;
+				string attributeName;
+				file >> attributeTypeEnum;
+				getline(file, attributeName);
+				Attribute a = Attribute(Type(attributeTypeEnum), attributeName);
+				t.addColumn(a);
+			}
+			//TODO: insert records to table
+
+
+			//once table formed, add to database
+			this->addTable(t, tableName);
+		}
+	}
+	else{
+		cerr << "error: file open failed" << endl;
+		return 1;
+	}
 	return 0;
 }
 int Database::merge(const Database& d) {
@@ -77,4 +107,11 @@ int Database::deleteRows(string fromTable, string whereClause) {
 }
 int Database::updateTable(string tableName, string setClause, string whereClause) {
 	return 0;
+}
+
+/* private helper functions */
+
+void Database::clearDatabase(){
+	map<string, Table> emptyTableMap;
+	tables = emptyTableMap;
 }

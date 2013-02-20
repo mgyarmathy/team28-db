@@ -11,12 +11,12 @@ int Table::addColumn(Attribute a) {
 	//check to make sure column doesn't already exist
 	if(!columnExists(a.name)){ 
 		columns.push_back(a);
-		return 0;
 	}
 	else{
 		cerr << "error: column name already exists" << endl;
 		return 1;
 	}
+	return 0;
 }
 int Table::deleteColumn(Attribute a) {
 	//remove that entry from the vector

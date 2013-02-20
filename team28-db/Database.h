@@ -38,6 +38,7 @@ class __declspec(dllexport) Database {
 		int updateTable(string tableName, string setClause, string whereClause);
 
 	private:
+		void clearDatabase();
 		map<string, Table> tables;
 };
 
