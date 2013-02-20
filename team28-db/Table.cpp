@@ -3,14 +3,20 @@
 Table::Table() {
 }
 Table::Table(vector<Attribute> columns) {
+	this->columns = columns;
 }
 
 //column operations
 int Table::addColumn(Attribute a) {
-	//push back for columns
-	//check if that attribute has alreay been added to the table
-	//if so, remove all entries for that attribute
-	return 0;
+	//check to make sure column doesn't already exist
+	if(!columnExists(a.name)){ 
+		columns.push_back(a);
+		return 0;
+	}
+	else{
+		cerr << "error: column name already exists" << endl;
+		return 1;
+	}
 }
 int Table::deleteColumn(Attribute a) {
 	//remove that entry from the vector
@@ -24,7 +30,7 @@ int Table::renameColumn(string oldName, string newName) {
 	return 0;
 }
 vector<Attribute> Table::getColumns() {
-	return vector<Attribute>();
+	return columns;
 }
 		
 //row operations
@@ -71,3 +77,10 @@ int Table::count(string column) {
 	return 0;
 }
 
+/* private helper functions */
+bool Table::columnExists(string name){
+	for(int i = 0; i<columns.size(); i++){
+		if(columns[i].name == name) return true;
+	}
+	return false;
+}

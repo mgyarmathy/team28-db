@@ -1,5 +1,4 @@
 #include "Database.h"
-#include <iostream>
 #include <fstream>
 
 Database::Database() {}
@@ -26,10 +25,13 @@ int Database::save(string filename) {
 		file << tableNames[i] << "\n";
 		vector<Attribute> columns = tables_list[i].getColumns();
 		file << columns.size() << "\n";
-		for(int i = 0; i<columns.size(); i++){
-			file << columns[i].type << " " << columns[i].name << "\n";
+		for(int j = 0; j<columns.size(); j++){
+			file << columns[j].type << " " << columns[j].name << "\n";
 		}
-
+		for(int j = 0; j<tables_list[i].getNumberOfRows(); j++){
+			Record r = tables_list[i].rowAt(j);
+			//save contents of record
+		}
 	}
 	file.close();
 	return 0;

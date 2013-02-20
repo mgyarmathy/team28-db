@@ -8,6 +8,7 @@
 #define TABLE_H_
 
 #include <vector>
+#include <iostream>
 #include "Attribute.h"
 #include "Record.h"
 
@@ -41,12 +42,13 @@ class __declspec(dllexport) Table {
 
 		//table computation functions
 		string sum(string column);
-
 		string min(string column);
-
 		string max(string column);
-
 		int count(string column);
+
+	private:
+		bool columnExists(string name);
+		vector<Attribute> columns;
 };
 
 #endif //TABLE_H_
