@@ -8,7 +8,7 @@ Database::Database(string fileName) {}
 Database::Database(const Table &t) {}
 
 int Database::addTable(const Table &t, string name) {
-	tables[name] = t;
+	tables.insert(pair<string, Table>(name, t));
 	return 0;
 }
 int Database::dropTable(string name) {
@@ -19,11 +19,17 @@ int Database::dropTable(string name) {
 int Database::save(string filename) {
 	ofstream file;
 	file.open(filename);
-	vector<Table> tables = this->getTables();
+	vector<Table> tables_list = this->getTables();
 	vector<string> tableNames = this->listTables();
-	file << tables.size() << "\n";
-	for(int i = 0; i<tables.size(); i++){
+	file << tables_list.size() << "\n";
+	for(int i = 0; i<tables_list.size(); i++){
 		file << tableNames[i] << "\n";
+		vector<Attribute> columns = tables_list[i].getColumns();
+		file << columns.size() << "\n";
+		for(int i = 0; i<columns.size(); i++){
+			file << columns[i].type << " " << columns[i].name << "\n";
+		}
+
 	}
 	file.close();
 	return 0;
@@ -47,7 +53,7 @@ int Database::copy(string fileName) {
 vector<string> Database::listTables() {
 	map<string, Table>::iterator it;
 	vector<string> tableNames;
-	for (it=tables.begin(); it!=tables.end(); ++it){
+	for (it=tables.begin(); it!=tables.end(); it++){
 		tableNames.push_back(it->first);
 	}
 	return tableNames;
@@ -55,7 +61,7 @@ vector<string> Database::listTables() {
 vector<Table> Database::getTables() {
 	map<string, Table>::iterator it;
 	vector<Table> tbls;
-	for (it=tables.begin(); it!=tables.end(); ++it){
+	for (it=tables.begin(); it!=tables.end(); it++){
 		tbls.push_back(it->second);
 	}
 	return tbls;
