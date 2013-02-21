@@ -124,22 +124,22 @@ string Table::sum(string columnName) {
 		return string();
 	}
 	else {
-		for(int i = 0; i < row.size(); i++) {
+		for(int i = 0; i < rows.size(); i++) {
 			switch(columns[n].type) {
 				case(0): { //type is integer
-					isum += atoi((row[i].elementAt(n)).c_str());
+					isum += atoi((rows[i].elementAt(n)).c_str());
 					break;
 				}
 				case (1) : { //type is float
-					fsum += atof((row[i].elementAt(n)).c_str());
+					fsum += atof((rows[i].elementAt(n)).c_str());
 					break;
 				}
 				case (2): // type is string
 				case (3): // type is date
 				case (4): // type is time
 				default: {
-						throw InvalidTypeForOperationException();
-						break;
+					throw InvalidTypeForOperationException();
+					break;
 				}
 			}
 

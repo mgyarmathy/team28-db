@@ -27,9 +27,17 @@ int Database::save(string filename) {
 		for(int j = 0; j<columns.size(); j++){
 			file << columns[j].type << "\n" << columns[j].name << "\n";
 		}
+		file << tablesList[i].getNumberOfRows() << "\n";
 		for(int j = 0; j<tablesList[i].getNumberOfRows(); j++){
 			Record r = tablesList[i].rowAt(j);
-			//TODO: save contents of record
+			for(int k = 0; k<tablesList[i].getColumns().size(); k++){
+				if(r.elementAt(k) != string()){
+					file << r.elementAt(k) << "\n";
+				}
+				else{
+					file << "NULL" << "\n";
+				}
+			}
 		}
 	}
 	file.close();
@@ -56,9 +64,19 @@ int Database::load(string filename) {
 				Attribute a = Attribute(Type(attributeTypeEnum), attributeName);
 				t.addColumn(a);
 			}
-			//TODO: insert records to table
-
-
+			int recordCount;
+			file >> recordCount;
+			for(int j = 0; j<recordCount; j++){
+				vector<string> entries;
+				for(int k = 0; k<columnCount; k++){
+					string entry;
+					getline(file, entry);
+					if(entry != "NULL"){
+						entries.push_back(entry);
+					}
+				}
+				t.insertRow(entries);
+			}
 			//once table formed, add to database
 			this->addTable(t, tableName);
 		}
