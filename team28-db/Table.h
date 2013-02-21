@@ -21,7 +21,7 @@ class __declspec(dllexport) Table {
 		Table(vector<Attribute> fields);
 
 		//column operations
-		int addColumn(Attribute a);
+		int addColumn(Attribute a); //throws ColumnAlreadyExistsException
 		int deleteColumn(Attribute a);
 		int deleteColumn(string attributeName);
 		int renameColumn(string oldName, string newName);

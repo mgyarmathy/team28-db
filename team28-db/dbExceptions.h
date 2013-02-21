@@ -2,7 +2,8 @@
 #define _DB_EXCEPTIONS_H_
 
 class OutOfBoundsException{};
-class ColumnExistsException{};
+class FileNotFoundException{};
+class ColumnAlreadyExistsException{};
 class RowTooLargeException{};
 class ColumnNotFoundException{};
 class InvalidTypeForOperationException{};

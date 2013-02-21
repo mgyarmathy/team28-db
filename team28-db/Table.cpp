@@ -17,7 +17,7 @@ int Table::addColumn(Attribute a) {
 		return 1;
 	}
 	else {
-		throw ColumnExistsException();
+		throw ColumnAlreadyExistsException();
 		return 0;
 	}
 }
