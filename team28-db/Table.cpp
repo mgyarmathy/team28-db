@@ -4,9 +4,8 @@ Table::Table() {
 }
 Table::Table(vector<Attribute> fields) {
 	columns = fields;
-	for(int i=0;i<columns.size();i++) {	// make respective entries in isKey
-		isKey.push_back(false);
-	}
+	vector<bool> keys(columns.size(), false);
+	isKey = keys;
 }
 
 //column operations
@@ -18,6 +17,7 @@ int Table::addColumn(Attribute a) {
 		return 1;
 	}
 	else {
+		throw ColumnExistsException();
 		return 0;
 	}
 }
