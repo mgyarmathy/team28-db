@@ -9,15 +9,16 @@
 
 #include <string>
 #include <vector>
+#include "dbExceptions.h"
 
 using namespace std;
 
 class __declspec(dllexport) Record {
 	public:
 		Record();
-		Record(vector<string> entries);
+		Record(vector<string> data);
 			
-		string& elementAt(int index);
+		string& elementAt(int index);	// throws OutOfBoundsException
 
 	private:
 		vector<string> entries;

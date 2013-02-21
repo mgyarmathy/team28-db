@@ -80,6 +80,7 @@
   <ItemGroup>
     <ClInclude Include="Attribute.h" />
     <ClInclude Include="Database.h" />
+    <ClInclude Include="dbExceptions.h" />
     <ClInclude Include="Record.h" />
     <ClInclude Include="Table.h" />
   </ItemGroup>

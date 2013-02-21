@@ -27,6 +27,9 @@
     <ClInclude Include="Attribute.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="dbExceptions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Attribute.cpp">

@@ -2,8 +2,11 @@
 
 Table::Table() {
 }
-Table::Table(vector<Attribute> columns) {
-	this->columns = columns;
+Table::Table(vector<Attribute> fields) {
+	columns = fields;
+	for(int i=0;i<columns.size();i++) {	// make respective entries in isKey
+		isKey.push_back(false);
+	}
 }
 
 //column operations
@@ -11,12 +14,12 @@ int Table::addColumn(Attribute a) {
 	//check to make sure column doesn't already exist
 	if(!columnExists(a.name)){ 
 		columns.push_back(a);
-	}
-	else{
-		cerr << "error: column name already exists" << endl;
+		isKey.push_back(false);		// when you add a column, you also add an entry saying that it's not a key
 		return 1;
 	}
-	return 0;
+	else {
+		return 0;
+	}
 }
 int Table::deleteColumn(Attribute a) {
 	//remove that entry from the vector
@@ -46,6 +49,7 @@ Record& Table::rowAt(int index) {
 		
 //key operations
 int Table::setKey(vector<Attribute> attributes) {
+	/*
 	vector<Attribute> matching_keys;
 	for(int i = 0; i<attributes.size(); i++){
 		for(int j = 0; j<columns.size(); j++){
@@ -56,9 +60,13 @@ int Table::setKey(vector<Attribute> attributes) {
 		}
 	}
 	key = matching_keys;
+	*/
+
+	// isKey is now a vector<bool> to just tell if the attribute at that index is a key
 	return 0;
 }
 int Table::setKey(vector<string> attributes) {
+	/*
 	vector<Attribute> matching_keys;
 	for(int i = 0; i<attributes.size(); i++){
 		for(int j = 0; j<columns.size(); j++){
@@ -69,6 +77,7 @@ int Table::setKey(vector<string> attributes) {
 		}
 	}
 	key = matching_keys;
+	*/
 	return 0;
 }
 
