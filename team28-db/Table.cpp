@@ -101,9 +101,29 @@ int Table::setKey(vector<string> attributes) {
 
 //table join operations
 Table Table::crossJoin(Table a, Table b) {
-	Table t = a;
+	Table t;
+	vector<Attribute> a_columns = a.getColumns();
+	vector<Attribute> b_columns = b.getColumns();
+	for(int i = 0; i<a_columns.size(); i++){
+		t.addColumn(a_columns[i]);
+	}
+	for(int i = 0; i<b_columns.size(); i++){
+		t.addColumn(b_columns[i]);
+	}
+	for(int i = 0; i<a.getNumberOfRows(); i++){
+		for(int j = 0; j<b.getNumberOfRows(); j++){
+			vector<string> entries;
+			for(int k = 0; k<a_columns.size(); k++){//a entries
+			entries.push_back(a.rowAt(i).elementAt(k));
 
-	return Table();
+			}
+			for(int k = 0; k<b_columns.size(); k++){
+				entries.push_back(b.rowAt(j).elementAt(k));
+			}
+			t.insertRow(entries);
+		}
+	}
+	return t;
 }
 Table Table::naturalJoin(Table a, Table b) {
 	return Table();
