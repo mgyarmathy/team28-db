@@ -33,8 +33,8 @@ class __declspec(dllexport) Table {
 		Record& rowAt(int index);
 		
 		//key operations
-		int setKey(Attribute a);
-		int setKey(string attributeName);
+		int setKey(vector<Attribute> attributes);
+		int setKey(vector<string> attributes);
 
 		//table join operations
 		Table crossJoin(const Table& a, const Table& b);
@@ -49,7 +49,7 @@ class __declspec(dllexport) Table {
 	private:
 		bool columnExists(string name);
 		vector<Attribute> columns;
-		Attribute key;
+		vector<Attribute> key;
 };
 
 #endif //TABLE_H_

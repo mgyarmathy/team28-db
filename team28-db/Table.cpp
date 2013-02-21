@@ -45,20 +45,30 @@ Record& Table::rowAt(int index) {
 }
 		
 //key operations
-int Table::setKey(Attribute a) {
-	for(int i = 0; i<columns.size(); i++){
-		if(columns[i].name == a.name){
-			key = columns[i];
+int Table::setKey(vector<Attribute> attributes) {
+	vector<Attribute> matching_keys;
+	for(int i = 0; i<attributes.size(); i++){
+		for(int j = 0; j<columns.size(); j++){
+			if(columns[j].name == attributes[i].name){
+				matching_keys.push_back(columns[j]);
+				break;
+			}
 		}
 	}
+	key = matching_keys;
 	return 0;
 }
-int Table::setKey(string attributeName) {
-	for(int i = 0; i<columns.size(); i++){
-		if(columns[i].name == attributeName){
-			key = columns[i];
+int Table::setKey(vector<string> attributes) {
+	vector<Attribute> matching_keys;
+	for(int i = 0; i<attributes.size(); i++){
+		for(int j = 0; j<columns.size(); j++){
+			if(columns[j].name == attributes[i]){
+				matching_keys.push_back(columns[j]);
+				break;
+			}
 		}
 	}
+	key = matching_keys;
 	return 0;
 }
 
