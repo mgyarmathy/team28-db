@@ -64,7 +64,7 @@ int Database::load(string filename) {
 		}
 	}
 	else{
-		cerr << "error: file open failed" << endl;
+		throw FileNotFoundException();
 		return 1;
 	}
 	return 0;
