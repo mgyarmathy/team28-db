@@ -49,35 +49,33 @@ Record& Table::rowAt(int index) {
 		
 //key operations
 int Table::setKey(vector<Attribute> attributes) {
-	/*
-	vector<Attribute> matching_keys;
-	for(int i = 0; i<attributes.size(); i++){
-		for(int j = 0; j<columns.size(); j++){
+	vector <bool> newKeys (columns.size(), false);
+	//iterate through all specified attributes
+	for(int i = 0; i<attributes.size(); i++){ 
+		//find them in the list of columns
+		for(int j = 0; j<columns.size(); j++){ 
 			if(columns[j].name == attributes[i].name){
-				matching_keys.push_back(columns[j]);
+				newKeys[j] = true;
 				break;
 			}
 		}
 	}
-	key = matching_keys;
-	*/
-
-	// isKey is now a vector<bool> to just tell if the attribute at that index is a key
+	isKey = newKeys;
 	return 0;
 }
 int Table::setKey(vector<string> attributes) {
-	/*
-	vector<Attribute> matching_keys;
+	vector <bool> newKeys (columns.size(), false);
+	//iterate through all specified attributes
 	for(int i = 0; i<attributes.size(); i++){
+		//find them in the list of columns
 		for(int j = 0; j<columns.size(); j++){
 			if(columns[j].name == attributes[i]){
-				matching_keys.push_back(columns[j]);
+				newKeys[j] = true;
 				break;
 			}
 		}
 	}
-	key = matching_keys;
-	*/
+	isKey = newKeys;
 	return 0;
 }
 
