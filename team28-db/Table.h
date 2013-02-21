@@ -49,7 +49,7 @@ class __declspec(dllexport) Table {
 	private:
 		bool columnExists(string name);
 		vector<Attribute> columns;	// stores the headers/titles
-		vector<Record> row;			// stores all the data
+		vector<Record> rows;			// stores all the data
 		vector<bool> isKey;			// tells if the particular attribute is a key
 };
 
