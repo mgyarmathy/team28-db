@@ -100,10 +100,12 @@ int Table::setKey(vector<string> attributes) {
 }
 
 //table join operations
-Table Table::crossJoin(const Table& a, const Table& b) {
+Table Table::crossJoin(Table a, Table b) {
+	Table t = a;
+
 	return Table();
 }
-Table Table::naturalJoin(const Table& a, const Table& b) {
+Table Table::naturalJoin(Table a, Table b) {
 	return Table();
 }
 
