@@ -45,10 +45,20 @@ Record& Table::rowAt(int index) {
 }
 		
 //key operations
-int Table::setKey(vector<Attribute> attributes) {
+int Table::setKey(Attribute a) {
+	for(int i = 0; i<columns.size(); i++){
+		if(columns[i].name == a.name){
+			key = columns[i];
+		}
+	}
 	return 0;
 }
-int Table::setKey(vector<string> attributes) {
+int Table::setKey(string attributeName) {
+	for(int i = 0; i<columns.size(); i++){
+		if(columns[i].name == attributeName){
+			key = columns[i];
+		}
+	}
 	return 0;
 }
 
