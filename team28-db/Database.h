@@ -25,7 +25,7 @@ class __declspec(dllexport) Database {
 
 		int save(string filename);
 		int load(string filename);
-		int merge(const Database& d);
+		int merge(Database& d);
 		int merge(string fileName);
 		int copy(const Database& d);
 		int copy(string fileName);

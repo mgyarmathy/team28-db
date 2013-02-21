@@ -62,7 +62,6 @@ int Database::load(string filename) {
 		this->clearDatabase();
 		int tableCount;
 		file >> tableCount;
-		cout << tableCount << " tables exist." << endl;
 		for(int i = 0; i<tableCount; i++){
 			Table t;
 			string tableName;
@@ -100,10 +99,54 @@ int Database::load(string filename) {
 	}
 	return 0;
 }
-int Database::merge(const Database& d) {
+int Database::merge(Database& d) {
+	vector<Table> newTables = d.getTables();
+	vector<string> newTableNames = d.listTables();
+	for(int i = 0; i<newTables.size(); i++){
+		tables.insert(pair<string, Table>(newTableNames[i], newTables[i]));
+	}
 	return 0;
 }
-int Database::merge(string fileName) {
+int Database::merge(string filename) {
+	ifstream file(filename);
+	if(file){
+		int tableCount;
+		file >> tableCount;
+		for(int i = 0; i<tableCount; i++){
+			Table t;
+			string tableName;
+			getline(file, tableName);
+			int columnCount;
+			file >> columnCount;
+			for(int j = 0; j<columnCount; j++){ //add table columns
+				int attributeTypeEnum;
+				string attributeName;
+				file >> attributeTypeEnum;
+				getline(file, attributeName);
+				Attribute a = Attribute(Type(attributeTypeEnum), attributeName);
+				t.addColumn(a);
+			}
+			int recordCount;
+			file >> recordCount;
+			for(int j = 0; j<recordCount; j++){
+				vector<string> entries;
+				for(int k = 0; k<columnCount; k++){
+					string entry;
+					getline(file, entry);
+					if(entry != "NULL"){
+						entries.push_back(entry);
+					}
+				}
+				t.insertRow(entries);
+			}
+			//once table formed, add to database
+			this->addTable(t, tableName);
+		}
+	}
+	else{
+		throw FileNotFoundException();
+		return 1;
+	}
 	return 0;
 }
 int Database::copy(const Database& d) {
