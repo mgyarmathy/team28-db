@@ -4,5 +4,8 @@
 class OutOfBoundsException{};
 class ColumnExistsException{};
 class RowTooLargeException{};
+class ColumnNotFoundException{};
+class InvalidTypeForOperationException{};
+
 
 #endif

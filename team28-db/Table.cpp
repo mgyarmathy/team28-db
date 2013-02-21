@@ -108,8 +108,49 @@ Table Table::naturalJoin(const Table& a, const Table& b) {
 }
 
 //table computation functions
-string Table::sum(string column) {
-	return string();
+string Table::sum(string columnName) {
+	int n = -1; // finding the index of the column
+	int isum = 0; // sum if integers
+	float fsum = 0.0; // sum if floats
+
+	for(int i = 0; i < columns.size(); i++) {
+		if(columns[i].name == columnName) {
+			n = 1;
+			break;
+		}
+	}
+	if(n == -1)	{
+		throw ColumnNotFoundException();
+		return string();
+	}
+	else {
+		for(int i = 0; i < row.size(); i++) {
+			switch(columns[n].type) {
+				case(0): { //type is integer
+					isum += atoi((row[i].elementAt(n)).c_str());
+					break;
+				}
+				case (1) : { //type is float
+					fsum += atof((row[i].elementAt(n)).c_str());
+					break;
+				}
+				case (2): // type is string
+				case (3): // type is date
+				case (4): // type is time
+				default: {
+						throw InvalidTypeForOperationException();
+						break;
+				}
+			}
+
+		}
+	}
+	if(columns[n].type == 0){
+		return std::to_string(static_cast<long long>(isum));
+	}
+	else {
+		return std::to_string(static_cast<long long>(fsum));
+	}
 }
 
 string Table::min(string column) {

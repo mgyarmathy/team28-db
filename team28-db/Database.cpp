@@ -16,7 +16,7 @@ int Database::dropTable(string name) {
 }
 
 int Database::save(string filename) {
-	ofstream file(filename);
+	ofstream file(filename);	//do you not want to error check here ? highly plausible that incorrect filename
 	vector<Table> tablesList = this->getTables();
 	vector<string> tableNames = this->listTables();
 	file << tablesList.size() << "\n";
