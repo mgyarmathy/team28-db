@@ -28,7 +28,8 @@ class __declspec(dllexport) Table {
 		vector<Attribute> getColumns();
 		
 		//row operations
-		int insertRow(string values);
+		/*int insertRow(string values);*/ //how are we to implement this?
+		int insertRow(vector<string> values); //throws RowTooLargeException
 		int getNumberOfRows();
 		Record& rowAt(int index);
 		

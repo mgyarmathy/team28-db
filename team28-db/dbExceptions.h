@@ -3,5 +3,6 @@
 
 class OutOfBoundsException{};
 class ColumnExistsException{};
+class RowTooLargeException{};
 
 #endif

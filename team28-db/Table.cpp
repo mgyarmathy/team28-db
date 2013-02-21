@@ -37,9 +37,27 @@ vector<Attribute> Table::getColumns() {
 }
 		
 //row operations
-int Table::insertRow(string values) {
+/*int Table::insertRow(string values) {
 	return 0;
+}*/
+
+int Table::insertRow(vector<string> values){
+	if(values.size() == columns.size()){
+		rows.push_back(Record(values));
+	}
+	else if(values.size() < columns.size()){
+		while(values.size() != columns.size()){
+			values.push_back(string());
+		}
+		rows.push_back(Record(values));
+
+	}
+	else{ //too many values, not enough columns
+		throw RowTooLargeException();
+		return 0;
+	}
 }
+
 int Table::getNumberOfRows() {
 	return rows.size();
 }
