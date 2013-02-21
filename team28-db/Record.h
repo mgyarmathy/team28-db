@@ -18,6 +18,9 @@ class __declspec(dllexport) Record {
 		Record(vector<string> entries);
 			
 		string& elementAt(int index);
+
+	private:
+		vector<string> entries;
 };
 
 #endif //RECORD_H_
