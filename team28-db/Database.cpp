@@ -2,9 +2,22 @@
 #include <fstream>
 
 Database::Database() {}
-Database::Database(const Database &d) {}
-Database::Database(string fileName) {}
-Database::Database(const Table &t) {}
+
+Database::Database(Database &d) {
+	vector<Table> newTables = d.getTables();
+	vector<string> newTableNames = d.listTables();
+	for(int i = 0; i<newTables.size(); i++){
+		tables.insert(pair<string, Table>(newTableNames[i], newTables[i]));
+	}
+}
+
+Database::Database(string filename) {
+	this->load(filename);
+}
+
+Database::Database(const Table &t, string tableName) {
+	addTable(t, tableName);
+}
 
 int Database::addTable(const Table &t, string name) {
 	tables.insert(pair<string, Table>(name, t));
