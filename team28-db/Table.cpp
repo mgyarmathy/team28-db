@@ -41,10 +41,12 @@ int Table::insertRow(string values) {
 	return 0;
 }
 int Table::getNumberOfRows() {
-	return 0;
+	return rows.size();
 }
 Record& Table::rowAt(int index) {
-	return Record();
+	if(index >= rows.size())
+		throw OutOfBoundsException();
+	else return rows[index];
 }
 		
 //key operations
