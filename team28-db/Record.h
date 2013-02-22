@@ -10,11 +10,13 @@
 #include <string>
 #include <vector>
 #include <cstring> // this was for c_str()
+#include "Table.h"
 #include "dbExceptions.h"
 
 using namespace std;
 
 class __declspec(dllexport) Record {
+	friend class Table;
 	public:
 		Record();
 		Record(vector<string> data);

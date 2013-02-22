@@ -13,6 +13,9 @@ int Table::addColumn(Attribute a) {
 	//check to make sure column doesn't already exist
 	if(!columnExists(a.name)){ 
 		columns.push_back(a);
+		for(int i=0; i < rows.size(); i++){
+			rows[i].entries.push_back("NULL");
+		}
 		isKey.push_back(false);		// when you add a column, you also add an entry saying that it's not a key
 		return 1;
 	}
@@ -22,14 +25,54 @@ int Table::addColumn(Attribute a) {
 	}
 }
 int Table::deleteColumn(Attribute a) {
-	//remove that entry from the vector
-	return 0;
+	if(columnExists(a.name)){
+		for(int i = 0; i<columns.size(); i++){
+			if(columns[i].name == a.name){
+				columns.erase(columns.begin()+i);
+				isKey.erase(isKey.begin()+i);
+				for(int j=0; j < rows.size(); j++){
+					rows[j].entries.erase(rows[j].entries.begin()+i);
+				}
+			}
+		}
+		return 1;
+	}
+	else {
+		throw ColumnNotFoundException();
+		return 0;
+	}
 }
 int Table::deleteColumn(string attributeName) {
-	//remove the entry from the vector
-	return 0;
+	if(columnExists(attributeName)){
+		for(int i = 0; i<columns.size(); i++){
+			if(columns[i].name == attributeName){
+				columns.erase(columns.begin()+i);
+				isKey.erase(isKey.begin()+i);
+				for(int j=0; j < rows.size(); j++){
+					rows[j].entries.erase(rows[j].entries.begin()+i);
+				}
+			}
+		}
+		return 1;
+	}
+	else {
+		throw ColumnNotFoundException();
+		return 0;
+	}
 }
 int Table::renameColumn(string oldName, string newName) {
+	if(columnExists(oldName)){
+		for(int i = 0; i<columns.size(); i++){
+			if(columns[i].name == oldName){
+				columns[i].name = newName;
+			}
+		}
+		return 1;
+	}
+	else {
+		throw ColumnNotFoundException();
+		return 0;
+	}
 	return 0;
 }
 vector<Attribute> Table::getColumns() {
@@ -63,6 +106,8 @@ int Table::getNumberOfRows() {
 }
 Record& Table::rowAt(int index) {
 	if(index >= rows.size())
+		throw OutOfBoundsException();
+	else if(index < 0)
 		throw OutOfBoundsException();
 	else return rows[index];
 }

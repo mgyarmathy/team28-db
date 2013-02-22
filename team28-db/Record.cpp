@@ -9,5 +9,8 @@ Record::Record(vector<string> data) {
 string& Record::elementAt(int index) {
 	if(index >= entries.size())
 		throw OutOfBoundsException();
-	else return entries[index];
+	else if(index < 0)
+		throw OutOfBoundsException(); 
+	else
+	return entries[index];
 }
