@@ -1,29 +1,43 @@
 #include "Database.h"
 #include <fstream>
 
-Database::Database() {}
+// Default constructor, just make sures that the database is empty
+Database::Database() {
+	clearDatabase();
+}
 
+// Copy constructor. Copies all the entries form the given database into the new one
 Database::Database(Database &d) {
 	vector<Table> newTables = d.getTables();
 	vector<string> newTableNames = d.listTables();
-	for(int i = 0; i<newTables.size(); i++){
+	clearDatabase();
+	for(int i = 0; i < newTables.size(); i++) {
 		tables.insert(pair<string, Table>(newTableNames[i], newTables[i]));
 	}
 }
 
+// Constructor to create (load) database from a file
 Database::Database(string filename) {
-	load(filename);
+	if(load(filename) == 1) {
+		throw FileNotFoundException();
+	}
 }
 
+// Constructor to create a database from a table
 Database::Database(const Table &t, string tableName) {
+	clearDatabase();
 	addTable(t, tableName);
 }
 
+// Add table to the database
 int Database::addTable(const Table &t, string name) {
+	// check if the table with that name already exists??
 	tables.insert(pair<string, Table>(name, t));
 	return 0;
 }
+
 int Database::dropTable(string name) {
+	// what if that table does not exists??
 	tables.erase(name);
 	return 0;
 }
@@ -185,7 +199,11 @@ int Database::updateTable(string tableName, string setClause, string whereClause
 
 /* private helper functions */
 
-void Database::clearDatabase(){
+void Database::clearDatabase() {
+	/* seriously dude??
+	WTF!
 	map<string, Table> emptyTableMap;
 	tables = emptyTableMap;
+	*/
+	tables.clear();
 }

@@ -17,7 +17,7 @@ class __declspec(dllexport) Database {
 	public:
 		Database();
 		Database(Database &d); //copy constructor
-		Database(string fileName); //create a database from a file
+		Database(string fileName); // Create a database from a file. Throws FileNotFoundException if file does not exist
 		Database(const Table &t, string tableName); //create a database from a preexisting table
 
 		int addTable(const Table &t, string name);
