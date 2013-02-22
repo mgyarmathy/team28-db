@@ -10,5 +10,6 @@ class __declspec(dllexport) TableNotFoundException{};
 class __declspec(dllexport) InvalidTypeForOperationException{};
 class __declspec(dllexport) IsNullException{};
 class __declspec(dllexport) IsInvalidException{};
+class __declspec(dllexport) NoMatchingKeysException{};
 
 #endif

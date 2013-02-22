@@ -36,10 +36,11 @@ class __declspec(dllexport) Table {
 		//key operations
 		int setKey(vector<Attribute> attributes);
 		int setKey(vector<string> attributes);
+		vector<Attribute> getKeys(); 
 
 		//table join operations
 		Table crossJoin(Table a, Table b);
-		Table naturalJoin(Table a, Table b);
+		Table naturalJoin(Table a, Table b); //throws NoMatchingKeyException
 
 		//table computation functions
 		string sum(string column);
@@ -49,6 +50,7 @@ class __declspec(dllexport) Table {
 
 	private:
 		bool columnExists(string name);
+		int getKeyIndex(string name);
 		vector<Attribute> columns;	// stores the headers/titles
 		vector<Record> rows;			// stores all the data
 		vector<bool> isKey;			// tells if the particular attribute is a key

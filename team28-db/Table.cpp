@@ -91,16 +91,16 @@ vector<Attribute> Table::getColumns() {
 int Table::insertRow(vector<string> values){
 	if(values.size() == columns.size()){
 		rows.push_back(Record(values));
+		return 1;
 	}
 	else if(values.size() < columns.size()){
 		while(values.size() != columns.size()){
 			values.push_back("NULL");
 		}
 		rows.push_back(Record(values));
-
+		return 1;
 	}
 	else{ //too many values, not enough columns
-		throw RowTooLargeException();
 		return 0;
 	}
 }
@@ -151,6 +151,14 @@ int Table::setKey(vector<string> attributes) {
 	return 0;
 }
 
+vector<Attribute> Table::getKeys(){
+	vector<Attribute> keys;
+	for(int i = 0; i<columns.size(); i++){
+		if(isKey[i]) keys.push_back(columns[i]);
+	}
+	return keys;
+}
+
 //table join operations
 Table Table::crossJoin(Table a, Table b) {
 	Table t;
@@ -177,8 +185,55 @@ Table Table::crossJoin(Table a, Table b) {
 	}
 	return t;
 }
+
+
 Table Table::naturalJoin(Table a, Table b) {
-	return Table();
+	Table t;
+	vector<Attribute> a_keys = a.getKeys();
+	vector<Attribute> b_keys = b.getKeys();
+	vector<Attribute> matching_keys;
+	for(int i = 0; i<a_keys.size(); i++){
+		for(int j = 0; j<b_keys.size(); j++){
+			if(a_keys[i].name == b_keys[j].name){
+				matching_keys.push_back(a_keys[i]);
+			}
+		}
+	}
+	if(matching_keys.size() > 0){
+		vector<Attribute> a_columns = a.getColumns();
+		vector<Attribute> b_columns = b.getColumns();
+		for(int i = 0; i<a_columns.size(); i++){
+			t.addColumn(a_columns[i]);
+		}
+		for(int i = 0; i<b_columns.size(); i++){
+			t.addColumn(b_columns[i]); //duplicate columns handled in this function
+		}
+		for(int i = 0; i<a.getNumberOfRows(); i++){
+			vector<string> entries;
+			for(int j = 0; j<a.getColumns().size(); j++){
+				entries.push_back(a.rowAt(i).elementAt(j));
+			}
+			string key_value = a.rowAt(i).elementAt(a.getKeyIndex(matching_keys[0].name)); //for now, just handle first matching key
+			for(int j = 0; j<b.getNumberOfRows(); j++){
+				if(key_value == b.rowAt(j).elementAt(b.getKeyIndex(matching_keys[0].name))){ //key_value matches row in table b
+					for(int k = 0; k<b.getColumns().size(); k++){ //add all other contents of matching row
+						if(k != b.getKeyIndex(matching_keys[0].name)){
+							entries.push_back(b.rowAt(j).elementAt(k));
+						}
+					}
+					break;
+				}
+			}
+			//if matching rows are joined, add to the new table
+			if(entries.size() != a.getColumns().size()){
+				t.insertRow(entries);
+			}
+		}
+		return t;
+	}
+	else{
+		throw NoMatchingKeysException();
+	}
 }
 
 //table computation functions
@@ -396,4 +451,11 @@ bool Table::columnExists(string name){
 		if(columns[i].name == name) return true;
 	}
 	return false;
+}
+
+int Table::getKeyIndex(string name){
+	for(int i = 0; i<columns.size(); i++){
+		if(name == columns[i].name) return i;
+	}
+	return -1;
 }
