@@ -1,4 +1,5 @@
 #include "Convert.h"
+#include <sstream>
 
 int Convert::toInt(string s) {
 	if(s == "NULL") {
@@ -26,4 +27,11 @@ float Convert::toFloat(string s) {
 	}
 }
 
-
+template <class T>
+string Convert::toString(T x) {
+	stringstream stream;
+	stream<<x;
+	string s;
+	stream>>s;
+	return s;
+}
