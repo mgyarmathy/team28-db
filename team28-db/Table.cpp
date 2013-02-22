@@ -231,7 +231,7 @@ string Table::min(string columnName) {
 }
 
 string Table::max(string columnName) {
-int n = -1; // finding the index of the column
+	int n = -1; // finding the index of the column
 	int imax = 0; // min if integers
 	float fmax = 0.0; // min if floats
 

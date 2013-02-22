@@ -43,32 +43,37 @@ int Database::dropTable(string name) {
 }
 
 int Database::save(string filename) {
-	ofstream file(filename);	//do you not want to error check here ? highly plausible that incorrect filename
-	vector<Table> tablesList = getTables();
-	vector<string> tableNames = listTables();
-	file << tablesList.size() << "\n";
-	for(int i = 0; i<tablesList.size(); i++){
-		file << tableNames[i] << "\n";
-		vector<Attribute> columns = tablesList[i].getColumns();
-		file << columns.size() << "\n";
-		for(int j = 0; j<columns.size(); j++){
-			file << columns[j].type << "\n" << columns[j].name << "\n";
-		}
-		file << tablesList[i].getNumberOfRows() << "\n";
-		for(int j = 0; j<tablesList[i].getNumberOfRows(); j++){
-			Record r = tablesList[i].rowAt(j);
-			for(int k = 0; k<tablesList[i].getColumns().size(); k++){
-				if(r.elementAt(k) != string()){
-					file << r.elementAt(k) << "\n";
-				}
-				else{
-					file << "NULL" << "\n";
+	ofstream file(filename);
+	if(file){
+		vector<Table> tablesList = getTables();
+		vector<string> tableNames = listTables();
+		file << tablesList.size() << "\n";
+		for(int i = 0; i<tablesList.size(); i++){
+			file << tableNames[i] << "\n";
+			vector<Attribute> columns = tablesList[i].getColumns();
+			file << columns.size() << "\n";
+			for(int j = 0; j<columns.size(); j++){
+				file << columns[j].type << "\n" << columns[j].name << "\n";
+			}
+			file << tablesList[i].getNumberOfRows() << "\n";
+			for(int j = 0; j<tablesList[i].getNumberOfRows(); j++){
+				Record r = tablesList[i].rowAt(j);
+				for(int k = 0; k<tablesList[i].getColumns().size(); k++){
+					if(r.elementAt(k) != string()){
+						file << r.elementAt(k) << "\n";
+					}
+					else{
+						file << "NULL" << "\n";
+					}
 				}
 			}
 		}
+		file.close();
+		return 0;
 	}
-	file.close();
-	return 0;
+	else {
+		return 1;
+	}
 }
 int Database::load(string filename) {
 	ifstream file(filename);
@@ -106,11 +111,11 @@ int Database::load(string filename) {
 			//once table formed, add to database
 			addTable(t, tableName);
 		}
+		return 0;
 	}
 	else {
 		return 1;
-	}
-	return 0;
+	}	
 }
 
 int Database::merge(Database& d) {
@@ -156,12 +161,12 @@ int Database::merge(string filename) {
 			//once table formed, add to database
 			addTable(t, tableName);
 		}
+		return 0;
 	}
 	else{
-		throw FileNotFoundException();
 		return 1;
 	}
-	return 0;
+	
 }
 int Database::copy(const Database& d) {
 	return 0;
