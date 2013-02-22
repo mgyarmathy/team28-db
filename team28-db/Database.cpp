@@ -31,15 +31,23 @@ Database::Database(const Table &t, string tableName) {
 
 // Add table to the database
 int Database::addTable(const Table &t, string name) {
-	// check if the table with that name already exists??
-	tables.insert(pair<string, Table>(name, t));
-	return 0;
+	if(!tableNameExists(name)){
+		tables.insert(pair<string, Table>(name, t));
+		return 1;
+	}
+	else{
+		return 0;
+	}
 }
 
 int Database::dropTable(string name) {
-	// what if that table does not exists??
-	tables.erase(name);
-	return 0;
+	if(!tableNameExists(name)){
+		tables.erase(name);
+		return 1;
+	}
+	else{
+		return 0;
+	}
 }
 
 int Database::save(string filename) {
@@ -69,10 +77,10 @@ int Database::save(string filename) {
 			}
 		}
 		file.close();
-		return 0;
+		return 1;
 	}
 	else {
-		return 1;
+		return 0;
 	}
 }
 int Database::load(string filename) {
@@ -111,10 +119,10 @@ int Database::load(string filename) {
 			//once table formed, add to database
 			addTable(t, tableName);
 		}
-		return 0;
+		return 1;
 	}
 	else {
-		return 1;
+		return 0;
 	}	
 }
 
@@ -124,7 +132,7 @@ int Database::merge(Database& d) {
 	for(int i = 0; i<newTables.size(); i++){
 		tables.insert(pair<string, Table>(newTableNames[i], newTables[i]));
 	}
-	return 0;
+	return 1;
 }
 int Database::merge(string filename) {
 	ifstream file(filename);
@@ -161,10 +169,10 @@ int Database::merge(string filename) {
 			//once table formed, add to database
 			addTable(t, tableName);
 		}
-		return 0;
+		return 1;
 	}
 	else{
-		return 1;
+		return 0;
 	}
 	
 }
@@ -205,10 +213,13 @@ int Database::updateTable(string tableName, string setClause, string whereClause
 /* private helper functions */
 
 void Database::clearDatabase() {
-	/* seriously dude??
-	WTF!
-	map<string, Table> emptyTableMap;
-	tables = emptyTableMap;
-	*/
 	tables.clear();
+}
+
+bool Database::tableNameExists(string name){
+	vector<string> tableNames = listTables();
+	for(int i = 0; i<tableNames.size(); i++){
+		if(tableNames[i] == name) return true;
+	}
+	return false;
 }

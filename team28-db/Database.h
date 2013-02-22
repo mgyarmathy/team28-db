@@ -39,6 +39,7 @@ class __declspec(dllexport) Database {
 
 	private:
 		void clearDatabase();
+		bool tableNameExists(string name);
 		map<string, Table> tables;
 };
 
