@@ -175,16 +175,163 @@ string Table::sum(string columnName) {
 	}
 }
 
-string Table::min(string column) {
+string Table::min(string columnName) {
+	int n = -1; // finding the index of the column
+	int imin = 0; // min if integers
+	float fmin = 0.0; // min if floats
+
+	for(int i = 0; i < columns.size(); i++) {
+		if(columns[i].name == columnName) {
+			n = 1;
+			break;
+		}
+	}
+	if(n == -1)	{
+		throw ColumnNotFoundException();
+		return string();
+	}
+	else {
+		for(int i = 0; i < rows.size(); i++) {
+			switch(columns[n].type) {
+				case(0): { //type is integer
+					if (imin < atoi((rows[i].elementAt(n)).c_str()))
+						imin = atoi((rows[i].elementAt(n)).c_str());
+					break;
+				}
+				case (1) : { //type is float
+					if( fmin < atof((rows[i].elementAt(n)).c_str())) 
+						fmin = atof((rows[i].elementAt(n)).c_str());
+					break;
+				}
+				case (2): { // type is string
+					throw InvalidTypeForOperationException();
+					break;
+			    }
+				case (3): {// type is date
+					break;
+			    }
+				case (4): { // type is time
+					break;
+				}
+				default: {
+					throw InvalidTypeForOperationException();
+					break;
+				}
+			}
+
+		}
+	}
+	if(columns[n].type == 0){
+		return std::to_string(static_cast<long long>(imin));
+	}
+	else {
+		return std::to_string(static_cast<long long>(fmin));
+	}	
 	return string();
 }
 
-string Table::max(string column) {
+string Table::max(string columnName) {
+int n = -1; // finding the index of the column
+	int imax = 0; // min if integers
+	float fmax = 0.0; // min if floats
+
+	for(int i = 0; i < columns.size(); i++) {
+		if(columns[i].name == columnName) {
+			n = 1;
+			break;
+		}
+	}
+	if(n == -1)	{
+		throw ColumnNotFoundException();
+		return string();
+	}
+	else {
+		for(int i = 0; i < rows.size(); i++) {
+			switch(columns[n].type) {
+				case(0): { //type is integer
+					if (imax > atoi((rows[i].elementAt(n)).c_str()))
+						imax = atoi((rows[i].elementAt(n)).c_str());
+					break;
+				}
+				case (1) : { //type is float
+					if( fmax > atof((rows[i].elementAt(n)).c_str())) 
+						fmax = atof((rows[i].elementAt(n)).c_str());
+					break;
+				}
+				case (2): { // type is string
+					throw InvalidTypeForOperationException();
+					break;
+			    }
+				case (3): {// type is date
+					break;
+			    }
+				case (4): { // type is time
+					break;
+				}
+				default: {
+					throw InvalidTypeForOperationException();
+					break;
+				}
+			}
+
+		}
+	}
+	if(columns[n].type == 0){
+		return std::to_string(static_cast<long long>(imax));
+	}
+	else {
+		return std::to_string(static_cast<long long>(fmax));
+	}	
 	return string();
 }
 
-int Table::count(string column) {
-	return 0;
+int Table::count(string columnName) {	// does not account for uniqueness of the entries
+	int n = -1; // finding the index of the column
+	int count = 0; // count of number of elements in the column
+
+	for(int i = 0; i < columns.size(); i++) {
+		if(columns[i].name == columnName) {
+			n = 1;
+			break;
+		}
+	}
+	if(n == -1)	{
+		throw ColumnNotFoundException();
+		return -1;
+	}
+	else {
+	//	for(int i = 0; i < rows.size(); i++) {
+	//		switch(columns[n].type) {
+	//			case(0): { //type is integer
+	//				if (atoi((rows[i].elementAt(n)).c_str()))
+	//					imax = atoi((rows[i].elementAt(n)).c_str());
+	//				break;
+	//			}
+	//			case (1) : { //type is float
+	//				if( fmax > atof((rows[i].elementAt(n)).c_str())) 
+	//					fmax = atof((rows[i].elementAt(n)).c_str());
+	//				break;
+	//			}
+	//			case (2): { // type is string
+	//				throw InvalidTypeForOperationException();
+	//				break;
+	//		    }
+	//			case (3): {// type is date
+	//				break;
+	//		    }
+	//			case (4): { // type is time
+	//				break;
+	//			}
+	//			default: {
+	//				throw InvalidTypeForOperationException();
+	//				break;
+	//			}
+	//		}
+
+	//	}
+		return rows.size(); // if the column exists, number of entries is simply the number of rows
+	}
+
 }
 
 /* private helper functions */
