@@ -12,5 +12,7 @@ class __declspec(dllexport) IsNullException{};
 class __declspec(dllexport) IsInvalidException{};
 class __declspec(dllexport) NoMatchingKeysException{};
 class __declspec(dllexport) InvalidAttributeNameException{};
+class __declspec(dllexport) InvalidSyntaxException{};
+class __declspec(dllexport) InvalidQueryException{};
 
 #endif

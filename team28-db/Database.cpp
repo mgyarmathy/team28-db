@@ -1,5 +1,6 @@
 #include "Database.h"
 #include <fstream>
+#include <sstream>
 
 // Default constructor, just make sures that the database is empty
 Database::Database() {
@@ -204,45 +205,8 @@ vector<Table> Database::getTables() {
 	return tbls;
 }
 
-Table Database::queryTable(vector<string> columnsToSelect, string fromTable, string whereClause) {
-	// get the index of the table in the list if it exists
-	int pos = -1;
-	vector<string> tableNames = listTables();
-	for(int i = 0; i < tableNames.size(); i++) {
-		if(tableNames[i] == fromTable) {
-			pos = i;
-			break;
-		}
-	}
-	if(pos == -1) {
-		throw TableNotFoundException();
-	}
-
-	Table selectedTable = getTables()[pos];
-	vector<Attribute> selectedColumns;
-
-	// check what columns we need
-	if(columnsToSelect.size() == 0) {
-		selectedColumns = selectedTable.getColumns();
-	}
-	else {
-		vector<Attribute> allColumns = selectedTable.getColumns();
-		for(int i = 0; i < columnsToSelect.size(); i++) {
-			for(int j = 0; j < allColumns.size(); j++) {
-				if(columnsToSelect[i] == allColumns[j].name) {
-					selectedColumns.push_back(allColumns[j]);
-					break;
-				}
-			}
-		}
-	}
-
-	// create an empty table with those columns
-	Table generatedTable(selectedColumns);
 
 
-	return Table();
-}
 int Database::deleteRows(string fromTable, string whereClause) {
 	return 0;
 }
@@ -262,4 +226,140 @@ bool Database::tableNameExists(string name){
 		if(tableNames[i] == name) return true;
 	}
 	return false;
+}
+
+int Database::getTableIndex(string name){
+	vector<string> tableNames = listTables();
+	for(int i = 0; i<tableNames.size(); i++){
+		if(tableNames[i] == name) return i;
+	}
+	return -1;
+}
+
+
+
+//////////////////////////////////////
+//			QUERY FUNCTION
+//////////////////////////////////////
+
+Table Database::queryTable(vector<string> columnsToSelect, string fromTable, string whereClause) {
+	//
+	// get the index of the table in the list if it exists
+	int pos = -1;
+	vector<string> tableNames = listTables();
+	for(int i = 0; i < tableNames.size(); i++) {
+		if(tableNames[i] == fromTable) {
+			pos = i;
+			break;
+		}
+	}
+	if(pos == -1) {
+		throw TableNotFoundException();
+	}
+
+	Table selectedTable = getTables()[pos];
+	vector<Attribute> selectedColumns;
+	vector<Attribute> allColumns = selectedTable.getColumns();
+	Table generatedTable = selectedTable;
+
+	//
+	// check what columns we need
+	if(columnsToSelect.size() == 0) {
+		selectedColumns = selectedTable.getColumns();
+	}
+	else {
+		for(int i = 0; i < columnsToSelect.size(); i++) {
+			for(int j = 0; j < allColumns.size(); j++) {
+				if(columnsToSelect[i] == allColumns[j].name) {
+					selectedColumns.push_back(allColumns[j]);
+					break;
+				}
+			}
+		}
+	}
+
+	//
+	// parenthesis check
+	int count = 0;
+	for(int i=0;i<whereClause.length(); i++) {
+		if(whereClause[i] == '(') {
+			if(whereClause[i-1]!=' ')
+				whereClause.insert(i," ");
+			count ++;
+		}
+		if(whereClause[i] == ')')
+			count--;
+	}
+	if(count!=0)
+		throw InvalidSyntaxException();
+
+	//
+	// The WHERE clause
+	stringstream stream;
+	stream << whereClause;
+	string input;
+
+	//
+	// keep taking inputs
+	while (stream >> input) {
+		if(input == "EXISTS") {
+			stream>>input;
+			string tableName = input.substr(1,input.size()-2);
+			int pos = getTableIndex(tableName);
+			if(pos == -1)
+				throw TableNotFoundException();
+			Table t = getTables()[pos];
+			Attribute columnToCheck = t.getColumns()[0];
+			// get the index of that column in main table
+			int recordPos;
+			for(int i=0;i<allColumns.size();i++) {
+				if(allColumns[i].name == columnToCheck.name) {
+					recordPos = i;
+					break;
+				}
+			}
+			// remove all the unrequired entries
+			for(int i=0; i < generatedTable.getNumberOfRows(); i++) {
+				string value = generatedTable.rowAt(i).elementAt(recordPos);
+				bool required = false;
+				for(int j=0; j < t.getNumberOfRows(); j++) {
+					if(value == t.rowAt(i).elementAt(0)) {
+						required = true;
+						break;
+					}
+				}
+				if(!required) {
+					generatedTable.rows.erase(generatedTable.rows.begin() + i);
+					i--;
+					continue;
+				}
+			}
+			continue;
+		}	// if (input == "EXISTS")
+		else {	// it is a column name
+			int pos = generatedTable.getColumnIndex(input);
+			if(pos == -1)
+				throw ColumnNotFoundException();
+			else {	// we have the column now get the operator
+
+			}
+		}
+	} // while (stream >> input)
+
+	//
+	// Delete unrequired items from the generated table
+	for(int i=0;i<allColumns.size(); i++) {
+		bool required = false;
+		for(int j=0; j<selectedColumns.size();j++) {
+			if(allColumns[i].name == selectedColumns[j].name)
+			{
+				required = true;
+				break;
+			}
+		}
+		if(!required)
+			generatedTable.deleteColumn(allColumns[i].name);
+	}
+	
+	return generatedTable;
 }

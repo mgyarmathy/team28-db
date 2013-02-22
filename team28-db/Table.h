@@ -15,6 +15,7 @@
 using namespace std;
 
 class __declspec(dllexport) Table {
+	friend class Database;
 	public:
 		//constructors
 		Table();
@@ -51,6 +52,7 @@ class __declspec(dllexport) Table {
 	private:
 		bool columnExists(string name);
 		int getKeyIndex(string name);
+		int getColumnIndex(string name);
 		vector<Attribute> columns;	// stores the headers/titles
 		vector<Record> rows;			// stores all the data
 		vector<bool> isKey;			// tells if the particular attribute is a key

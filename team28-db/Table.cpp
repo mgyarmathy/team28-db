@@ -485,5 +485,11 @@ int Table::getKeyIndex(string name){
 	for(int i = 0; i<columns.size(); i++){
 		if(name == columns[i].name) return i;
 	}
+}
+
+int Table::getColumnIndex(string name){
+	for(int i = 0; i<columns.size(); i++){
+		if(columns[i].name == name) return i;
+	}
 	return -1;
 }
