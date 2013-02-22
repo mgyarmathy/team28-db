@@ -25,9 +25,9 @@ Jayant
 - [ ] Update/modify command
 
 Logan
-- [ ] addColumn() (making sure all other preexisting entries get null for that attribute)
-- [ ] deleteColumn()
-- [ ] renameColumn()
+- [x] addColumn() (making sure all other preexisting entries get null for that attribute)
+- [x] deleteColumn()
+- [x] renameColumn()
 - [ ] rowAt()
 - [ ] Record class constructor/modifiers
 - [ ] Attribute class constructor
@@ -39,10 +39,10 @@ Nish
 - [ ] Table max
 
 Michael
-- [ ] Save Database to file
-- [ ] Load Database from file
-- [ ] Merge database
+- [x] Save Database to file
+- [x] Load Database from file
+- [x] Merge database
 - [ ] Copy database
-- [ ] Cross join
-- [ ] Natural join
-- [ ] Specify key
+- [x] Cross join
+- [x] Natural join
+- [x] Specify key
