@@ -12,7 +12,7 @@ Database::Database(Database &d) {
 }
 
 Database::Database(string filename) {
-	this->load(filename);
+	load(filename);
 }
 
 Database::Database(const Table &t, string tableName) {
@@ -30,8 +30,8 @@ int Database::dropTable(string name) {
 
 int Database::save(string filename) {
 	ofstream file(filename);	//do you not want to error check here ? highly plausible that incorrect filename
-	vector<Table> tablesList = this->getTables();
-	vector<string> tableNames = this->listTables();
+	vector<Table> tablesList = getTables();
+	vector<string> tableNames = listTables();
 	file << tablesList.size() << "\n";
 	for(int i = 0; i<tablesList.size(); i++){
 		file << tableNames[i] << "\n";
@@ -58,17 +58,17 @@ int Database::save(string filename) {
 }
 int Database::load(string filename) {
 	ifstream file(filename);
-	if(file){
-		this->clearDatabase();
+	if(file) {
+		clearDatabase();
 		int tableCount;
 		file >> tableCount;
-		for(int i = 0; i<tableCount; i++){
+		for(int i = 0; i<tableCount; i++) {
 			Table t;
 			string tableName;
 			getline(file, tableName);
 			int columnCount;
 			file >> columnCount;
-			for(int j = 0; j<columnCount; j++){ //add table columns
+			for(int j = 0; j<columnCount; j++) { //add table columns
 				int attributeTypeEnum;
 				string attributeName;
 				file >> attributeTypeEnum;
@@ -90,15 +90,15 @@ int Database::load(string filename) {
 				t.insertRow(entries);
 			}
 			//once table formed, add to database
-			this->addTable(t, tableName);
+			addTable(t, tableName);
 		}
 	}
-	else{
-		throw FileNotFoundException();
+	else {
 		return 1;
 	}
 	return 0;
 }
+
 int Database::merge(Database& d) {
 	vector<Table> newTables = d.getTables();
 	vector<string> newTableNames = d.listTables();
@@ -140,7 +140,7 @@ int Database::merge(string filename) {
 				t.insertRow(entries);
 			}
 			//once table formed, add to database
-			this->addTable(t, tableName);
+			addTable(t, tableName);
 		}
 	}
 	else{
