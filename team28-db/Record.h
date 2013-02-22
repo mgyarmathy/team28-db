@@ -10,7 +10,6 @@
 #include <string>
 #include <vector>
 #include <cstring> // this was for c_str()
-#include "Table.h"
 #include "dbExceptions.h"
 
 using namespace std;

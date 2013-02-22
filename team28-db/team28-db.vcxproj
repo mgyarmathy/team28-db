@@ -79,6 +79,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Attribute.h" />
+    <ClInclude Include="Convert.h" />
     <ClInclude Include="Database.h" />
     <ClInclude Include="Date.h" />
     <ClInclude Include="dbExceptions.h" />

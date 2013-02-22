@@ -25,6 +25,7 @@ int Table::addColumn(Attribute a) {
 		return 0;
 	}
 }
+
 int Table::deleteColumn(Attribute a) {
 	//make sure the column exists
 	if(columnExists(a.name)){
@@ -107,6 +108,7 @@ int Table::insertRow(vector<string> values){
 int Table::getNumberOfRows() {
 	return rows.size();
 }
+
 Record& Table::rowAt(int index) {
 	if(index >= rows.size())
 		throw OutOfBoundsException();
@@ -116,7 +118,7 @@ Record& Table::rowAt(int index) {
 		throw OutOfBoundsException();
 	else return rows[index];
 }
-		
+
 //key operations
 int Table::setKey(vector<Attribute> attributes) {
 	vector <bool> newKeys (columns.size(), false);

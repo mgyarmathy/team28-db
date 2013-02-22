@@ -14,5 +14,5 @@ string& Record::elementAt(int index) {
 	//then check that the index is a vlid number greater than 0
 		throw OutOfBoundsException(); 
 	else
-	return entries[index];
+		return entries[index];
 }

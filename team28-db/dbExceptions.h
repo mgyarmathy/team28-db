@@ -8,5 +8,7 @@ class __declspec(dllexport) RowTooLargeException{};
 class __declspec(dllexport) ColumnNotFoundException{};
 class __declspec(dllexport) TableNotFoundException{};
 class __declspec(dllexport) InvalidTypeForOperationException{};
+class __declspec(dllexport) IsNullException{};
+class __declspec(dllexport) IsInvalidException{};
 
 #endif
