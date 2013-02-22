@@ -89,6 +89,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Attribute.cpp" />
+    <ClCompile Include="Convert.cpp" />
     <ClCompile Include="Database.cpp" />
     <ClCompile Include="Date.cpp" />
     <ClCompile Include="Record.cpp" />
