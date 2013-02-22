@@ -172,11 +172,19 @@ int Database::merge(string filename) {
 	}
 	
 }
-int Database::copy(const Database& d) {
-	return 0;
+int Database::copy(Database& d) {
+	vector<Table> newTables = d.getTables();
+	vector<string> newTableNames = d.listTables();
+	clearDatabase();
+	for(int i = 0; i < newTables.size(); i++) {
+		tables.insert(pair<string, Table>(newTableNames[i], newTables[i]));
+	}
+	return 1;
+
 }
 int Database::copy(string fileName) {
-	return 0;
+	return load(fileName);
+
 }
 
 vector<string> Database::listTables() {

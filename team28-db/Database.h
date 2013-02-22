@@ -27,7 +27,7 @@ class __declspec(dllexport) Database {
 		int load(string filename);
 		int merge(Database& d);
 		int merge(string fileName);
-		int copy(const Database& d);
+		int copy(Database& d);
 		int copy(string fileName);
 
 		vector<string> listTables();
