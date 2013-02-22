@@ -67,12 +67,7 @@ int Database::save(string filename) {
 			for(int j = 0; j<tablesList[i].getNumberOfRows(); j++){
 				Record r = tablesList[i].rowAt(j);
 				for(int k = 0; k<tablesList[i].getColumns().size(); k++){
-					if(r.elementAt(k) != string()){
 						file << r.elementAt(k) << "\n";
-					}
-					else{
-						file << "NULL" << "\n";
-					}
 				}
 			}
 		}

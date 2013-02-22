@@ -21,7 +21,6 @@ int Table::addColumn(Attribute a) {
 		return 1;
 	}
 	else {
-		throw ColumnAlreadyExistsException();
 		return 0;
 	}
 }
@@ -43,7 +42,6 @@ int Table::deleteColumn(Attribute a) {
 		return 1;
 	}
 	else {
-		throw ColumnNotFoundException();
 		return 0;
 	}
 }
@@ -65,7 +63,6 @@ int Table::deleteColumn(string attributeName) {
 		return 1;
 	}
 	else {
-		throw ColumnNotFoundException();
 		return 0;
 	}
 }
@@ -81,27 +78,21 @@ int Table::renameColumn(string oldName, string newName) {
 		return 1;
 	}
 	else {
-		throw ColumnNotFoundException();
 		return 0;
 	}
-	return 0;
 }
 vector<Attribute> Table::getColumns() {
 	return columns;
 }
 		
 //row operations
-/*int Table::insertRow(string values) {
-	return 0;
-}*/
-
 int Table::insertRow(vector<string> values){
 	if(values.size() == columns.size()){
 		rows.push_back(Record(values));
 	}
 	else if(values.size() < columns.size()){
 		while(values.size() != columns.size()){
-			values.push_back(string());
+			values.push_back("NULL");
 		}
 		rows.push_back(Record(values));
 
