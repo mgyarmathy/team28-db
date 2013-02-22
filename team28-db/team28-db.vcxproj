@@ -80,6 +80,7 @@
   <ItemGroup>
     <ClInclude Include="Attribute.h" />
     <ClInclude Include="Database.h" />
+    <ClInclude Include="Date.h" />
     <ClInclude Include="dbExceptions.h" />
     <ClInclude Include="Record.h" />
     <ClInclude Include="Table.h" />
@@ -87,6 +88,7 @@
   <ItemGroup>
     <ClCompile Include="Attribute.cpp" />
     <ClCompile Include="Database.cpp" />
+    <ClCompile Include="Date.cpp" />
     <ClCompile Include="Record.cpp" />
     <ClCompile Include="Table.cpp" />
   </ItemGroup>
