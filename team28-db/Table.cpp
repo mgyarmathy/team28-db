@@ -1,4 +1,5 @@
 #include "Table.h"
+#include "Date.h"
 
 Table::Table() {
 }
@@ -228,6 +229,9 @@ string Table::min(string columnName) {
 	int n = -1; // finding the index of the column
 	int imin = 0; // min if integers
 	float fmin = 0.0; // min if floats
+	int daycount = 0; // number of days
+	Date dmin = Date();
+	Date tempdate = Date();
 
 	for(int i = 0; i < columns.size(); i++) {
 		if(columns[i].name == columnName) {
@@ -257,6 +261,7 @@ string Table::min(string columnName) {
 					break;
 			    }
 				case (3): {// type is date
+					/*(rows[i].elementAt(n))>>tempdate*/
 					break;
 			    }
 				case (4): { // type is time

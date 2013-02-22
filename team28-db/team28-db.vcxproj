@@ -84,6 +84,7 @@
     <ClInclude Include="dbExceptions.h" />
     <ClInclude Include="Record.h" />
     <ClInclude Include="Table.h" />
+    <ClInclude Include="Time.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Attribute.cpp" />
@@ -91,6 +92,7 @@
     <ClCompile Include="Date.cpp" />
     <ClCompile Include="Record.cpp" />
     <ClCompile Include="Table.cpp" />
+    <ClCompile Include="Time.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
