@@ -19,6 +19,12 @@ class Time{
 public:
     Time(): h(12), m(0), s(0) {} //default constructor
     Time(int hours, int minutes, int seconds): h(hours), m(minutes), s(seconds) {}
+	Time(string inputvalues){
+		stringstream ss (stringstream::in | stringstream::out);
+		ss<<inputvalues;
+		char colon1,colon2;
+		ss>>h>>colon1>>m>>colon2>>s;
+	}
 
     //accessor functions
     int hours() const { return h; }

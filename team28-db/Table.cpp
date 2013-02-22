@@ -1,5 +1,7 @@
 #include "Table.h"
 #include "Date.h"
+#include "Time.h"
+#include "Convert.h"
 
 Table::Table() {
 }
@@ -256,11 +258,11 @@ string Table::sum(string columnName) {
 		for(int i = 0; i < rows.size(); i++) {
 			switch(columns[n].type) {
 				case(0): { //type is integer
-					isum += atoi((rows[i].elementAt(n)).c_str());
+					isum += Convert::toInt(rows[i].elementAt(n));
 					break;
 				}
 				case (1) : { //type is float
-					fsum += atof((rows[i].elementAt(n)).c_str());
+					fsum += Convert::toFloat(rows[i].elementAt(n));
 					break;
 				}
 				case (2): // type is string
@@ -284,11 +286,14 @@ string Table::sum(string columnName) {
 
 string Table::min(string columnName) {
 	int n = -1; // finding the index of the column
-	int imin = 0; // min if integers
-	float fmin = 0.0; // min if floats
-	int daycount = 0; // number of days
+	int imin = 999999; // min if integers
+	float fmin = 99999999.99; // min if floats
+	long int daycount = 999999999; // number of days
+	long int seccount = 999999999; // number of seconds
 	Date dmin = Date();
-	Date tempdate = Date();
+	Time tmin = Time();
+
+	
 
 	for(int i = 0; i < columns.size(); i++) {
 		if(columns[i].name == columnName) {
@@ -304,13 +309,13 @@ string Table::min(string columnName) {
 		for(int i = 0; i < rows.size(); i++) {
 			switch(columns[n].type) {
 				case(0): { //type is integer
-					if (imin < atoi((rows[i].elementAt(n)).c_str()))
-						imin = atoi((rows[i].elementAt(n)).c_str());
+					if (imin > Convert::toInt(rows[i].elementAt(n)))
+						imin = Convert::toInt(rows[i].elementAt(n));
 					break;
 				}
 				case (1) : { //type is float
-					if( fmin < atof((rows[i].elementAt(n)).c_str())) 
-						fmin = atof((rows[i].elementAt(n)).c_str());
+					if (fmin > Convert::toFloat(rows[i].elementAt(n)))
+						fmin = Convert::toFloat(rows[i].elementAt(n));
 					break;
 				}
 				case (2): { // type is string
@@ -318,10 +323,19 @@ string Table::min(string columnName) {
 					break;
 			    }
 				case (3): {// type is date
-					/*(rows[i].elementAt(n))>>tempdate*/
+					Date tempdate = Date(rows[i].elementAt(n));
+					if(daycount > ((365*tempdate.year())+(30*tempdate.month())+tempdate.day())) {
+						daycount = ((365*tempdate.year())+(30*tempdate.month())+tempdate.day());
+						dmin = tempdate;
+					}
 					break;
 			    }
 				case (4): { // type is time
+					Time temptime = Time(rows[i].elementAt(n));
+					if(seccount > ((3600*temptime.hours())+(60*temptime.minutes())+temptime.seconds())) {
+						seccount = ((3600*temptime.hours())+(60*temptime.minutes())+temptime.seconds());
+						tmin = temptime;
+					}
 					break;
 				}
 				default: {
@@ -345,6 +359,10 @@ string Table::max(string columnName) {
 	int n = -1; // finding the index of the column
 	int imax = 0; // min if integers
 	float fmax = 0.0; // min if floats
+	long int daycount = 0; // number of days
+	long int seccount = 0; // number of seconds
+	Date dmax = Date();
+	Time tmax = Time();
 
 	for(int i = 0; i < columns.size(); i++) {
 		if(columns[i].name == columnName) {
@@ -360,12 +378,12 @@ string Table::max(string columnName) {
 		for(int i = 0; i < rows.size(); i++) {
 			switch(columns[n].type) {
 				case(0): { //type is integer
-					if (imax > atoi((rows[i].elementAt(n)).c_str()))
+					if (imax < atoi((rows[i].elementAt(n)).c_str()))
 						imax = atoi((rows[i].elementAt(n)).c_str());
 					break;
 				}
 				case (1) : { //type is float
-					if( fmax > atof((rows[i].elementAt(n)).c_str())) 
+					if( fmax < atof((rows[i].elementAt(n)).c_str())) 
 						fmax = atof((rows[i].elementAt(n)).c_str());
 					break;
 				}
@@ -374,9 +392,19 @@ string Table::max(string columnName) {
 					break;
 			    }
 				case (3): {// type is date
+					Date tempdate = Date(rows[i].elementAt(n));
+					if(daycount < ((365*tempdate.year())+(30*tempdate.month())+tempdate.day())) {
+						daycount = ((365*tempdate.year())+(30*tempdate.month())+tempdate.day());
+						dmax = tempdate;
+					}
 					break;
 			    }
 				case (4): { // type is time
+					Time temptime = Time(rows[i].elementAt(n));
+					if(seccount < ((3600*temptime.hours())+(60*temptime.minutes())+temptime.seconds())) {
+						seccount = ((3600*temptime.hours())+(60*temptime.minutes())+temptime.seconds());
+						tmax = temptime;
+					}
 					break;
 				}
 				default: {

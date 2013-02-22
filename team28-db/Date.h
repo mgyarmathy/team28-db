@@ -19,6 +19,12 @@ class Date{
 public:
     Date(): m(1), d(1), y(2000) {} //default constructor
     Date(int month, int day, int year): m(month), d(day), y(year) {}
+	Date(string inputvalues){
+		stringstream ss (stringstream::in | stringstream::out);
+		ss<<inputvalues;
+		char slash1,slash2;
+		ss>>m>>slash1>>d>>slash2>>y;
+	}
 
     //accessor functions
     int month() const { return m; }
