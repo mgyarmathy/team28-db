@@ -6,7 +6,7 @@ class __declspec(dllexport) FileNotFoundException{};
 class __declspec(dllexport) ColumnAlreadyExistsException{};
 class __declspec(dllexport) RowTooLargeException{};
 class __declspec(dllexport) ColumnNotFoundException{};
+class __declspec(dllexport) TableNotFoundException{};
 class __declspec(dllexport) InvalidTypeForOperationException{};
-
 
 #endif

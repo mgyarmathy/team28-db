@@ -83,6 +83,7 @@ int Database::save(string filename) {
 		return 0;
 	}
 }
+
 int Database::load(string filename) {
 	ifstream file(filename);
 	if(file) {
@@ -105,9 +106,9 @@ int Database::load(string filename) {
 			}
 			int recordCount;
 			file >> recordCount;
-			for(int j = 0; j<recordCount; j++){
+			for(int j = 0; j<recordCount; j++) {
 				vector<string> entries;
-				for(int k = 0; k<columnCount; k++){
+				for(int k = 0; k<columnCount; k++) {
 					string entry;
 					getline(file, entry);
 					if(entry != "NULL"){
@@ -139,13 +140,13 @@ int Database::merge(string filename) {
 	if(file){
 		int tableCount;
 		file >> tableCount;
-		for(int i = 0; i<tableCount; i++){
+		for(int i = 0; i<tableCount; i++) {
 			Table t;
 			string tableName;
 			getline(file, tableName);
 			int columnCount;
 			file >> columnCount;
-			for(int j = 0; j<columnCount; j++){ //add table columns
+			for(int j = 0; j<columnCount; j++) { //add table columns
 				int attributeTypeEnum;
 				string attributeName;
 				file >> attributeTypeEnum;
@@ -155,12 +156,12 @@ int Database::merge(string filename) {
 			}
 			int recordCount;
 			file >> recordCount;
-			for(int j = 0; j<recordCount; j++){
+			for(int j = 0; j<recordCount; j++) {
 				vector<string> entries;
-				for(int k = 0; k<columnCount; k++){
+				for(int k = 0; k<columnCount; k++) {
 					string entry;
 					getline(file, entry);
-					if(entry != "NULL"){
+					if(entry != "NULL") {
 						entries.push_back(entry);
 					}
 				}
@@ -200,7 +201,43 @@ vector<Table> Database::getTables() {
 	return tbls;
 }
 
-Table Database::queryTable(string columnsToSelect, string fromTable, string whereClause) {
+Table Database::queryTable(vector<string> columnsToSelect, string fromTable, string whereClause) {
+	// get the index of the table in the list if it exists
+	int pos = -1;
+	vector<string> tableNames = listTables();
+	for(int i = 0; i < tableNames.size(); i++) {
+		if(tableNames[i] == fromTable) {
+			pos = i;
+			break;
+		}
+	}
+	if(pos == -1) {
+		throw TableNotFoundException();
+	}
+
+	Table selectedTable = getTables()[pos];
+	vector<Attribute> selectedColumns;
+
+	// check what columns we need
+	if(columnsToSelect.size() == 0) {
+		selectedColumns = selectedTable.getColumns();
+	}
+	else {
+		vector<Attribute> allColumns = selectedTable.getColumns();
+		for(int i = 0; i < columnsToSelect.size(); i++) {
+			for(int j = 0; j < allColumns.size(); j++) {
+				if(columnsToSelect[i] == allColumns[j].name) {
+					selectedColumns.push_back(allColumns[j]);
+					break;
+				}
+			}
+		}
+	}
+
+	// create an empty table with those columns
+	Table generatedTable(selectedColumns);
+
+
 	return Table();
 }
 int Database::deleteRows(string fromTable, string whereClause) {

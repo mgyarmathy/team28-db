@@ -33,7 +33,10 @@ class __declspec(dllexport) Database {
 		vector<string> listTables();
 		vector<Table> getTables();
 
-		Table queryTable(string columnsToSelect, string fromTable, string whereClause);
+		/* first argument changed form string to a vector of string
+		*  empty vector represents keep all
+		*/
+		Table queryTable(vector<string> columnsToSelect, string fromTable, string whereClause);
 		int deleteRows(string fromTable, string whereClause);
 		int updateTable(string tableName, string setClause, string whereClause);
 
