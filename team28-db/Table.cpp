@@ -13,6 +13,7 @@ int Table::addColumn(Attribute a) {
 	//check to make sure column doesn't already exist
 	if(!columnExists(a.name)){ 
 		columns.push_back(a);
+		 //now that the attribute column is added, a "NULL" entry must be added to the end of each row
 		for(int i=0; i < rows.size(); i++){
 			rows[i].entries.push_back("NULL");
 		}
@@ -25,11 +26,15 @@ int Table::addColumn(Attribute a) {
 	}
 }
 int Table::deleteColumn(Attribute a) {
+	//make sure the column exists
 	if(columnExists(a.name)){
 		for(int i = 0; i<columns.size(); i++){
 			if(columns[i].name == a.name){
+				//first the column entry is deleted
 				columns.erase(columns.begin()+i);
+				//next the key entry is deleted in the corresponding index
 				isKey.erase(isKey.begin()+i);
+				//and finally all the entries in the rows for that column are erased
 				for(int j=0; j < rows.size(); j++){
 					rows[j].entries.erase(rows[j].entries.begin()+i);
 				}
@@ -43,11 +48,15 @@ int Table::deleteColumn(Attribute a) {
 	}
 }
 int Table::deleteColumn(string attributeName) {
+	//make sure the column exists
 	if(columnExists(attributeName)){
 		for(int i = 0; i<columns.size(); i++){
 			if(columns[i].name == attributeName){
+				//first the column entry is deleted
 				columns.erase(columns.begin()+i);
+				//next the key entry is deleted in the corresponding index
 				isKey.erase(isKey.begin()+i);
+				//and finally all the entries in the rows for that column are erased
 				for(int j=0; j < rows.size(); j++){
 					rows[j].entries.erase(rows[j].entries.begin()+i);
 				}
@@ -62,8 +71,10 @@ int Table::deleteColumn(string attributeName) {
 }
 int Table::renameColumn(string oldName, string newName) {
 	if(columnExists(oldName)){
+		//check if the column exists
 		for(int i = 0; i<columns.size(); i++){
 			if(columns[i].name == oldName){
+				//find the column and replace the name with the new name
 				columns[i].name = newName;
 			}
 		}
@@ -107,6 +118,8 @@ int Table::getNumberOfRows() {
 Record& Table::rowAt(int index) {
 	if(index >= rows.size())
 		throw OutOfBoundsException();
+	//first check if the index exceeds the row count
+	//then make sure that the index is a valid number
 	else if(index < 0)
 		throw OutOfBoundsException();
 	else return rows[index];
